@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#EC9F64"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/registrotitulo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="REGISTRATE"
+            android:gravity="center"
+            android:textSize="35sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/CorreoTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Introduce el correo electrónico"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/Correo_e"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:hint="Correo electrónico"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/ContraseniaTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Introduce la contraseña"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/Contrasenia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:hint="Contraseña"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/NombreTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Introduce el nombre"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/Nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="Nombre"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/ApellidosTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Introduce los apellidos"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/Apellidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="Apellidos"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/DireccionTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Introduce la dirección"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/Direccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="Dirección"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/TelefonoTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Introduce el teléfono"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/Telefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone"
+                android:hint="Teléfono"
+                android:textSize="20sp" />
+
+
+            <TextView
+                android:id="@+id/NIFTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Introduce el NIF"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/NIF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="NIF"
+                android:textSize="20sp" />
+
+            <!-- El campo "admin" se omite ya que es constante (siempre 0 para clientes) -->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/Enviar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enviar"
+            android:textSize="30sp" />
+
+        <Button
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/Volver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volver"
+            android:textSize="30sp" />
+    </LinearLayout>
+</LinearLayout>

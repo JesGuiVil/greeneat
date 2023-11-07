@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#EC9F64"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/anadirtitulo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="AÑADIR PRODUCTO"
+            android:gravity="center"
+            android:textSize="35dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/NombreTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Introduce el nombre"
+                android:gravity="center"
+
+                android:textSize="35dp"
+                />
+            <EditText
+
+                android:id="@+id/Nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="Nombre"
+
+                android:textSize="20dp"
+                />
+            <TextView
+                android:id="@+id/DescripcionTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Introduce la descripcion"
+                android:gravity="center"
+
+                android:textSize="35dp"
+                />
+
+            <EditText
+                android:id="@+id/Descripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:hint="Descripcion"
+                android:textSize="20sp"
+            />
+    </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:orientation="vertical">
+        <Button
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/Enviar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enviar"
+            android:textSize="30dp"
+            />
+        <Button
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/Volver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volver"
+            android:textSize="30dp"
+            />
+    </LinearLayout>
+</LinearLayout>
+
