@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,12 +11,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/registrotitulo"
+            android:id="@+id/anadirtitulo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="REGISTRATE"
+            android:text="AÑADIR PROVEEDOR"
             android:gravity="center"
-            android:textSize="35sp" />
+            android:textSize="35dp" />
     </LinearLayout>
 
     <ScrollView
@@ -32,76 +31,68 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/CorreoTexto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Introduce tus datos"
-                android:gravity="center"
-                android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/Correo_e"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textEmailAddress"
-                android:hint="Correo electrónico"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/Contrasenia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPassword"
-                android:hint="Contraseña"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/Nombre"
+                android:id="@+id/Nombreproveedor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
                 android:hint="Nombre"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
+
+
 
             <EditText
-                android:id="@+id/Apellidos"
+                android:id="@+id/Apellidosproveedor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
                 android:hint="Apellidos"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
+
 
             <EditText
-                android:id="@+id/Direccion"
+                android:id="@+id/Direccionproveedor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
                 android:hint="Dirección"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
+
+
 
             <EditText
-                android:id="@+id/Telefono"
+                android:id="@+id/Telefonoproveedor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="phone"
                 android:hint="Teléfono"
-                android:textSize="20sp" />
+                android:textSize="20dp" />
+
+
 
             <EditText
-                android:id="@+id/NIF"
+                android:id="@+id/Correo_eproveedor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:hint="Correo"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/NIFproveedor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
                 android:hint="NIF"
                 android:textSize="20sp" />
+
         </LinearLayout>
     </ScrollView>
 
@@ -118,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enviar"
-            android:textSize="30sp" />
+            android:textSize="30dp" />
 
         <Button
             android:layout_marginHorizontal="10dp"
@@ -128,6 +119,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Volver"
-            android:textSize="30sp" />
+            android:textSize="30dp" />
     </LinearLayout>
 </LinearLayout>

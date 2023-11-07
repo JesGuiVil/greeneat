@@ -34,10 +34,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/correo_eTextologin"
+                android:id="@+id/datoslogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Correo electrónico"
+                android:text="Introduzca sus datos"
                 android:gravity="center"
                 android:textSize="35dp"
                 />
@@ -51,15 +51,6 @@
                 android:hint="correo electronico"
 
                 android:textSize="20dp"
-                />
-            <TextView
-                android:id="@+id/ContraseniaTextologin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Contraseña"
-                android:gravity="center"
-
-                android:textSize="35dp"
                 />
 
             <EditText
