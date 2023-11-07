@@ -73,7 +73,7 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
-    private String obtenerFechaActual() {
+    public static String obtenerFechaActual() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaActual = new Date();
         return dateFormat.format(fechaActual);

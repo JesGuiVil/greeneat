@@ -35,17 +35,25 @@ public class ModificarActivity extends AppCompatActivity {
                 String nombre = nombreEditText.getText().toString();
                 String descripcion = descripcionEditText.getText().toString();
 
-                // Validar que los campos no estén vacíos
-                if (modificarId.isEmpty() || nombre.isEmpty() || descripcion.isEmpty()) {
-                    Toast.makeText(ModificarActivity.this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
+                // Validar que el campo "modificarId" no esté vacío
+                if (modificarId.isEmpty()) {
+                    Toast.makeText(ModificarActivity.this, "Por favor, ingresa el ID del producto a modificar", Toast.LENGTH_SHORT).show();
                 } else {
                     // Obtener una instancia de SQLiteDatabase
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
 
                     // Crear un objeto ContentValues para actualizar datos
                     ContentValues values = new ContentValues();
-                    values.put("Nombre", nombre);
-                    values.put("Descripcion", descripcion);
+
+                    // Solo actualiza el campo "Nombre" si no está vacío
+                    if (!nombre.isEmpty()) {
+                        values.put("Nombre", nombre);
+                    }
+
+                    // Solo actualiza el campo "Descripcion" si no está vacío
+                    if (!descripcion.isEmpty()) {
+                        values.put("Descripcion", descripcion);
+                    }
 
                     // Definir la cláusula WHERE para la actualización
                     String selection = "id = ?";
@@ -72,6 +80,7 @@ public class ModificarActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         Button volverButton = findViewById(R.id.Volver);
         volverButton.setOnClickListener(new View.OnClickListener() {
