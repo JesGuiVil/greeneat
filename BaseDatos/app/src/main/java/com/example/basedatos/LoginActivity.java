@@ -18,7 +18,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText correoEditText, contraseniaEditText;
     Button enviarButton, volverButton;
     VideoView video_view;
-
     DbHelper dbHelper;
     SQLiteDatabase db;
 
@@ -48,10 +47,13 @@ public class LoginActivity extends AppCompatActivity {
                 String correo = correoEditText.getText().toString();
                 String contrasenia = contraseniaEditText.getText().toString();
 
-                int loginStatus = validarUsuario(correo, contrasenia);
                 long idUsuario = obtenerIdUsuario(correo); // Obten el ID del usuario
 
-                mostrarMensajeDeInicioDeSesion(loginStatus, idUsuario);
+                if (validarUsuario(correo, contrasenia) == 1) {
+                    irAAdminActivity(idUsuario);
+                } else if (validarUsuario(correo, contrasenia) == 0) {
+                    irAClienteActivity(idUsuario);
+                }
             }
         });
 
@@ -69,14 +71,11 @@ public class LoginActivity extends AppCompatActivity {
 
         if (cursor != null && cursor.moveToFirst()) {
             int adminColumnIndex = cursor.getColumnIndex("Admin");
-            int idColumnIndex = cursor.getColumnIndex("id");
 
-            if (adminColumnIndex != -1 && idColumnIndex != -1) {
+            if (adminColumnIndex != -1) {
                 int admin = cursor.getInt(adminColumnIndex);
-                long idUsuario = cursor.getLong(idColumnIndex);
-
                 cursor.close();
-                //mostrarMensajeDeInicioDeSesion(admin, idUsuario); // Pasa ambos argumentos
+                mostrarMensajeDeInicioDeSesion(admin);
                 return admin;
             } else {
                 cursor.close();
@@ -89,8 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         return -1; // Valor predeterminado si no se encuentra el usuario
     }
 
-
-    private void mostrarMensajeDeInicioDeSesion(int admin, long idUsuario) {
+    private void mostrarMensajeDeInicioDeSesion(int admin) {
         if (admin == 1) {
             Toast.makeText(LoginActivity.this, "Inicio de sesión exitoso (administrador)", Toast.LENGTH_SHORT).show();
         } else if (admin == 0) {
@@ -99,11 +97,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
         }
 
-        if (admin == 1) {
-            irAAdminActivity(idUsuario);
-        } else if (admin == 0) {
-            irAClienteActivity(idUsuario);
-        }
     }
 
     private long obtenerIdUsuario(String correo) {
@@ -136,6 +129,3 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 }
-
-
-
