@@ -34,7 +34,7 @@ public class ModificarActivity extends AppCompatActivity {
                 String modificarId = modificarIdEditText.getText().toString();
                 String nombre = nombreEditText.getText().toString();
                 String descripcion = descripcionEditText.getText().toString();
-
+//hola ardi2
                 // Validar que el campo "modificarId" no esté vacío
                 if (modificarId.isEmpty()) {
                     Toast.makeText(ModificarActivity.this, "Por favor, ingresa el ID del producto a modificar", Toast.LENGTH_SHORT).show();
