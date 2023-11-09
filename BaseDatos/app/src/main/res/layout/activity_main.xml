@@ -9,37 +9,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-104dp">
+
+        <EditText
+
+            android:id="@+id/correo_elogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="correo electronico"
+            android:inputType="text"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/Contrasenialogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:textSize="20sp" />
 
         <Button
-            android:id="@+id/Login"
-            style="?android:attr/buttonStyleSmall"
+            android:id="@+id/iniciarsesion"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="Iniciar Sesión"
-            android:textSize="25dp"/>
-        <Button
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="INICIAR SESIÓN"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/Registro"
-            style="?android:attr/buttonStyleSmall"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="Registrarse"
-            android:textSize="25dp"
-            android:textAlignment="center"/>
-        <Button
-            android:id="@+id/salir"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="SALIR"
-            android:textSize="25dp"/>
-
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="¿Quieres crear una cuenta?"
+            android:textSize="35dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,13 @@
 package com.example.basedatos;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -62,6 +64,15 @@ public class RegistroActivity extends AppCompatActivity {
 
 // Cierra la conexión a la base de datos
                 db.close();
+                if (newRowId != -1) {
+                    Toast.makeText(RegistroActivity.this, "registrado correctamente", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegistroActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(RegistroActivity.this, "error al registrar", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         Button volverButton = findViewById(R.id.Volver);
