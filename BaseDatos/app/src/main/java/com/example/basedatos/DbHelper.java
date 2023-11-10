@@ -1,3 +1,4 @@
+
 package com.example.basedatos;
 
 import android.content.ContentValues;
@@ -75,9 +76,12 @@ public class DbHelper extends SQLiteOpenHelper {
                 "IVA REAL, " +
                 "Peso REAL, " +
                 "Stock INTEGER, " +
-                "ID_Proveedor INTEGER, " +
-                "FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores(id) " +
+                "Descripcion TEXT, " +
+//                "ID_Proveedor INTEGER, " +
+                "Imagen TEXT " +  // Nuevo campo para la ruta de la imagen
+//                "FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores(id) " +
                 ")";
+
         db.execSQL(CREATE_PRODUCTO_TABLE);
 
         // Tabla Pedidos

@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,42 +26,77 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <LinearLayout
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/NombreTexto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Introduce el nombre"
-                android:gravity="center"
 
-                android:textSize="35dp"
-                />
             <EditText
-
                 android:id="@+id/Nombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:hint="Nombre"
+                android:hint="Introduce el nombre"
+                android:textSize="20dp" />
 
-                android:textSize="20dp"
-                />
-            <TextView
-                android:id="@+id/DescripcionTexto"
+
+
+            <EditText
+                android:id="@+id/Seccion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Introduce la descripcion"
-                android:gravity="center"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="Introduce la sección"
+                android:textSize="20dp" />
 
-                android:textSize="35dp"
-                />
+
+
+            <EditText
+                android:id="@+id/Precio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="Introduce el precio"
+                android:textSize="20dp" />
+
+
+
+            <EditText
+                android:id="@+id/IVA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="Introduce el IVA"
+                android:textSize="20dp" />
+
+
+
+            <EditText
+                android:id="@+id/Peso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="Introduce el peso"
+                android:textSize="20dp" />
+
+
+            <EditText
+                android:id="@+id/Stock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:hint="Introduce el stock"
+                android:textSize="20dp" />
+
 
             <EditText
                 android:id="@+id/Descripcion"
@@ -70,35 +104,42 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textMultiLine"
-                android:hint="Descripcion"
-                android:textSize="20sp"
-            />
-    </LinearLayout>
+                android:hint="Introduce la descripción"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/SeleccionarImagen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar Imagen"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/ImagenProducto"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="fitCenter" />
+
+        </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:orientation="vertical">
+
         <Button
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:gravity="center"
             android:id="@+id/Enviar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Enviar"
-            android:textSize="30dp"
-            />
+            android:textSize="30dp" />
+
         <Button
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:gravity="center"
             android:id="@+id/Volver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Volver"
-            android:textSize="30dp"
-            />
+            android:textSize="30dp" />
     </LinearLayout>
 </LinearLayout>
-
