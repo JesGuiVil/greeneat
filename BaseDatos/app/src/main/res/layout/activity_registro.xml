@@ -3,131 +3,174 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#DDFAAF"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#EC9F64"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#DDFAAF"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:src="@drawable/logo"
+            android:scaleType="fitStart"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="3dp">
+        </ImageView>
 
         <TextView
-            android:id="@+id/registrotitulo"
+            android:layout_weight="0.5"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="REGISTRATE"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido a GreenEat"
             android:gravity="center"
-            android:textSize="35sp" />
+            android:textColor="#0B3A17"
+            android:layout_marginTop="23.5dp"
+            android:layout_marginRight="10dp"
+            android:textSize="28.5dp" />
+
     </LinearLayout>
 
-    <ScrollView
-        android:layout_marginVertical="5dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_weight="1"
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/CorreoTexto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Introduce tus datos"
-                android:gravity="center"
-                android:textSize="20sp" />
+            android:layout_weight="0.45">
 
-            <EditText
-                android:id="@+id/Correo_e"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textEmailAddress"
-                android:hint="Correo electrónico"
-                android:textSize="20sp" />
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/Contrasenia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPassword"
-                android:hint="Contraseña"
-                android:textSize="20sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="19dp"
+                    android:gravity="center"
+                    android:text="Introduce tus datos"
+                    android:textColor="#0B3A17"
+                    android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/Nombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="Nombre"
-                android:textSize="20sp" />
+                <EditText
+                    android:id="@+id/Correo_e"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:ems="10"
+                    android:hint="Correo electrónico"
+                    android:inputType="textEmailAddress"
+                    android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/Apellidos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="Apellidos"
-                android:textSize="20sp" />
+                <EditText
+                    android:id="@+id/Contrasenia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/Direccion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="Dirección"
-                android:textSize="20sp" />
+                <EditText
+                    android:id="@+id/Nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Nombre"
+                    android:inputType="text"
+                    android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/Telefono"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="phone"
-                android:hint="Teléfono"
-                android:textSize="20sp" />
+                <EditText
+                    android:id="@+id/Apellidos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Apellidos"
+                    android:inputType="text"
+                    android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/NIF"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="NIF"
-                android:textSize="20sp" />
-        </LinearLayout>
-    </ScrollView>
+                <EditText
+                    android:id="@+id/Direccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Dirección"
+                    android:inputType="text"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/Telefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Teléfono"
+                    android:inputType="phone"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/NIF"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="NIF"
+                    android:inputType="text"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </ScrollView>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.95"
         android:orientation="vertical">
 
-        <Button
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="1"
-            android:gravity="center"
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/Enviar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@android:dimen/app_icon_size"
+            android:background="#81B62A"
+            android:gravity="center_horizontal"
             android:text="Enviar"
-            android:textSize="30sp" />
+            android:textColor="#0B3A17"
+            android:textSize="35dp"
+            android:textStyle="bold" />
 
-        <Button
-            android:layout_marginHorizontal="10dp"
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_marginHorizontal="82dp"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:id="@+id/Volver"
+            android:background="#81B62A"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Volver"
-            android:textSize="30sp" />
+            android:text="Volver al inicio"
+
+            android:textColor="#0B3A17"
+            android:textSize="30dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="19dp"
+            android:src="@drawable/vegetables"></ImageView>
     </LinearLayout>
 </LinearLayout>
