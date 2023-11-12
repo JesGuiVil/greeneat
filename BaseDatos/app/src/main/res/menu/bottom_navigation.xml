@@ -4,16 +4,13 @@
     <item
         android:id="@+id/iniciomenu"
         android:icon="@drawable/home"
-        android:title="Inicio"
-        app:itemBackground="@drawable/bg_bottom_nav_item"/>
+        android:title="Inicio" />
     <item
         android:id="@+id/carritomenu"
         android:icon="@drawable/carro"
-        android:title="Carrito"
-        app:itemBackground="@drawable/bg_bottom_nav_item"/>
+        android:title="Carrito" />
     <item
         android:id="@+id/cuentamenu"
         android:icon="@drawable/user"
-        android:title="Cuenta"
-        app:itemBackground="@drawable/bg_bottom_nav_item"/>
+        android:title="Cuenta"/>
 </menu>

@@ -75,13 +75,7 @@ public class RegistroActivity extends AppCompatActivity {
 
             }
         });
-        Button volverButton = findViewById(R.id.Volver);
-        volverButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
     }
 
     public static String obtenerFechaActual() {
