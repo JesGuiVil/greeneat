@@ -37,6 +37,18 @@ public class DbHelper extends SQLiteOpenHelper {
                 ")";
 
         db.execSQL(CREATE_PROVEEDOR_TABLE);
+        ContentValues valuesProveedores = new ContentValues();
+
+        valuesProveedores.put("Nombre", "CooSur");
+        valuesProveedores.put("Apellidos", "CoopAgricola");
+        valuesProveedores.put("Direccion", "greeneat 1");
+        valuesProveedores.put("Telefono", 954999999);
+        valuesProveedores.put("Correo_e", "admin@coosur.com");
+        valuesProveedores.put("Fecha_alta", obtenerFechaActual());
+        valuesProveedores.put("NIF", "12345678A");
+
+        long newRowIdProveedores = db.insert("Proveedores", null, valuesProveedores);
+
 
         // Tabla Usuario
         String CREATE_USUARIO_TABLE = "CREATE TABLE Usuarios (" +
@@ -54,18 +66,20 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.execSQL(CREATE_USUARIO_TABLE);
 
-        ContentValues values = new ContentValues();
-        values.put("Nombre", "admin");
-        values.put("Apellidos", "admin");
-        values.put("Admin", 1);
-        values.put("Direccion", "greeneat 1");
-        values.put("Telefono", 954999999);
-        values.put("Correo_e", "admin@greeneat.com");
-        values.put("Contrasenia", "admin");
-        values.put("NIF", "12345678A");
-        values.put("Fecha_alta", obtenerFechaActual());
+        ContentValues valuesUsuarios = new ContentValues();
 
-        long newRowId = db.insert("Usuarios", null, values);
+
+        valuesUsuarios.put("Nombre", "admin");
+        valuesUsuarios.put("Apellidos", "admin");
+        valuesUsuarios.put("Admin", 1);
+        valuesUsuarios.put("Direccion", "greeneat 1");
+        valuesUsuarios.put("Telefono", 954999999);
+        valuesUsuarios.put("Correo_e", "admin@greeneat.com");
+        valuesUsuarios.put("Contrasenia", "admin");
+        valuesUsuarios.put("NIF", "12345678A");
+        valuesUsuarios.put("Fecha_alta", obtenerFechaActual());
+
+        long newRowIdUsuarios = db.insert("Usuarios", null, valuesUsuarios);
 
         // Tabla Producto
         String CREATE_PRODUCTO_TABLE = "CREATE TABLE Productos (" +
@@ -77,9 +91,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 "Peso REAL, " +
                 "Stock INTEGER, " +
                 "Descripcion TEXT, " +
-//                "ID_Proveedor INTEGER, " +
-                "Imagen TEXT " +  // Nuevo campo para la ruta de la imagen
-//                "FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores(id) " +
+                "ID_Proveedor INTEGER, " +
+                "Imagen TEXT, " +  // Nuevo campo para la ruta de la imagen
+                "FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores(id) " +
                 ")";
 
         db.execSQL(CREATE_PRODUCTO_TABLE);

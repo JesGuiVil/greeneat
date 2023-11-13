@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AnadirActivity extends AppCompatActivity {
 
-    EditText nombreEditText, seccionEditText, precioEditText, ivaEditText, pesoEditText, stockEditText, descripcionEditText;
+    EditText nombreEditText, seccionEditText, precioEditText, ivaEditText, pesoEditText, stockEditText, descripcionEditText, idProveedor;
     ImageView imagenProducto;
     Uri imagenUri;
     DbHelper dbHelper;
@@ -38,6 +38,7 @@ public class AnadirActivity extends AppCompatActivity {
         stockEditText = findViewById(R.id.Stock);
         descripcionEditText=findViewById(R.id.Descripcion);
         imagenProducto = findViewById(R.id.ImagenProducto);
+        idProveedor = findViewById(R.id.idProveedor);
 
         // Botón para seleccionar imagen
         Button seleccionarImagenButton = findViewById(R.id.SeleccionarImagen);
@@ -82,6 +83,7 @@ public class AnadirActivity extends AppCompatActivity {
                         values.put("Peso", peso);
                         values.put("Stock", stock);
                         values.put("Descripcion", descripcion);
+                        values.put("ID_Proveedor", String.valueOf(idProveedor));
 
                         // Si se seleccionó una imagen, guardar la ruta en la base de datos
                         if (imagenUri != null) {
@@ -104,6 +106,7 @@ public class AnadirActivity extends AppCompatActivity {
                             pesoEditText.setText("");
                             stockEditText.setText("");
                             descripcionEditText.setText("");
+                            idProveedor.setText("");
                             imagenProducto.setImageURI(null);
                         } else {
                             Toast.makeText(AnadirActivity.this, "Error al agregar el producto", Toast.LENGTH_SHORT).show();
