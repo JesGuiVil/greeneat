@@ -2,8 +2,5 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="verde">#DDFAAF</color>
-    <color name="verdemedio">#81B62A</color>
-    <color name="verdeoscuro">#0B3A17</color>
-    <color name="naranja">#FFF07909</color>
+    <color name="verde">#A8FBAC</color>
 </resources>

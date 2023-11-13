@@ -11,48 +11,54 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="#DDFAAF"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp">
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
             android:layout_weight="1"
             android:src="@drawable/logo"
-      >
+            android:scaleType="fitStart"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="3dp">
         </ImageView>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+
+        <TextView
             android:layout_weight="0.5"
-            android:src="@drawable/bienvenido">
-        </ImageView>
-
-
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido a GreenEat"
+            android:gravity="center"
+            android:textColor="#0B3A17"
+            android:layout_marginTop="23.5dp"
+            android:layout_marginRight="10dp"
+            android:textSize="28.5dp" />
 
     </LinearLayout>
+
+
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="60dp"
-            android:layout_marginTop="30dp"
-            android:layout_weight="0.50">
+            android:layout_weight="0.45">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="19dp"
+                    android:gravity="center"
                     android:text="Introduce tus datos"
-                    android:textStyle="bold"
                     android:textColor="#0B3A17"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/Correo_e"
@@ -124,21 +130,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight="1"
+        android:layout_weight="0.95"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/Enviar"
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="60dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@android:dimen/app_icon_size"
             android:background="#81B62A"
-            android:layout_gravity="center"
+            android:gravity="center_horizontal"
             android:text="Enviar"
             android:textColor="#0B3A17"
-            android:textSize="30dp"
+            android:textSize="35dp"
             android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_marginHorizontal="82dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/Volver"
+            android:background="#81B62A"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volver al inicio"
+
+            android:textColor="#0B3A17"
+            android:textSize="30dp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -150,10 +170,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/vegetables"
-            android:layout_gravity="bottom"
-            android:scaleType="fitEnd">
-
-        </ImageView>
+            android:layout_marginTop="19dp"
+            android:src="@drawable/vegetables"></ImageView>
     </LinearLayout>
 </LinearLayout>

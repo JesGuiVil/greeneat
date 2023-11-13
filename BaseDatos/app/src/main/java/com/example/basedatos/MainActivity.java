@@ -1,6 +1,9 @@
 package com.example.basedatos;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -10,14 +13,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     EditText correoEditText, contraseniaEditText;
+    Button enviarButton, volverButton;
+    VideoView video_view;
     DbHelper dbHelper;
     SQLiteDatabase db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DbHelper(this);
         correoEditText = findViewById(R.id.correo_elogin);
         contraseniaEditText = findViewById(R.id.Contrasenialogin);
+
 
         File archivo=new File("/data/data/com.example.basedatos/databases/ejemplo.db");
         if (archivo.exists()){
