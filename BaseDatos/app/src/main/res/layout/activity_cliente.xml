@@ -28,10 +28,11 @@
             <SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:iconifiedByDefault="false"
+                android:layout_height="wrap_content"
                 android:background="@color/verde"
-                android:queryHint="Buscar..." />
+                android:iconifiedByDefault="false"
+                android:queryHint="Buscar..."
+                style="@style/searchtheme"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -41,7 +42,7 @@
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.20"
+        android:layout_weight="0.22"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </FrameLayout>
@@ -49,17 +50,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.05"
+        android:layout_weight="1.08"
+        android:layout_gravity="center"
         android:background="#DDFAAF"
         android:orientation="vertical">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:menu="@menu/bottom_navigation"
             app:labelVisibilityMode="labeled"
-            app:itemIconSize="35dp"
+            app:itemIconSize="30dp"
             app:itemTextAppearanceActiveBoldEnabled="true"
             style="@style/BottomNavigation"/>
 

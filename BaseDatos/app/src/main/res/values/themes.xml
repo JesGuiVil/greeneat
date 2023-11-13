@@ -3,7 +3,7 @@
     <style name="Theme.BaseDatos" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/verdeoscuro</item>
-        <item name="colorPrimaryVariant">@color/verdeoscuro</item>
+        <item name="colorPrimaryVariant">@color/naranjabarra</item>
         <item name="colorOnPrimary">@color/verdemedio</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/naranja</item>
@@ -16,9 +16,16 @@
 
     <style name="BottomNavigation">
         <item name="android:background">@color/verdeoscuro</item>
-        <item name="itemIconTint">@color/verdemedio</item>
-        <item name="itemTextColor">@color/verdemedio</item>
+        <item name="itemIconTint">@drawable/bottom_nav_color</item>
+        <item name="itemTextColor">@drawable/bottom_nav_color</item>
+        <item name="textAppearanceTitleLarge">@drawable/bottom_nav_color</item>
+        <item name="android:textSize">28dp</item>
     </style>
+    <style name="searchtheme">
+        <item name="android:textColor">@color/naranja</item>
+        <item name="android:textColorHint">@color/naranja</item>
+    </style>
+
 
 
 </resources>
