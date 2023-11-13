@@ -3,14 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/iniciomenu"
-        android:icon="@drawable/home"
-        android:title="Inicio" />
+        android:icon="@drawable/homemacizo"
+        android:title="Inicio"
+        android:checkable="true"/>
     <item
         android:id="@+id/carritomenu"
-        android:icon="@drawable/carro"
-        android:title="Carrito" />
+        android:icon="@drawable/carromacizo"
+        android:title="Carrito"
+        android:checkable="true"/>
+
     <item
         android:id="@+id/cuentamenu"
-        android:icon="@drawable/user"
-        android:title="Cuenta"/>
+        android:icon="@drawable/usermacizo"
+        android:title="Cuenta"
+        android:checkable="true"/>
 </menu>
