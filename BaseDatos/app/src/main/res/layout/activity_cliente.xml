@@ -1,70 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DDFAAF"
-    android:orientation="vertical"
     tools:context=".ClienteActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.05"
-        android:paddingHorizontal="50dp"
-        android:paddingVertical="14dp"
-        android:background="@color/verdeoscuro"
-        android:orientation="vertical">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            android:layout_gravity="center">
-
-            <SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/verde"
-                android:iconifiedByDefault="false"
-                android:queryHint="Buscar..."
-                style="@style/searchtheme"/>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/frame_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.22"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.08"
-        android:layout_gravity="center"
+        android:layout_above="@+id/bottom_navigation"
         android:background="#DDFAAF"
         android:orientation="vertical">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:gravity="center"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/verdeoscuro"
+            android:orientation="vertical"
+            android:paddingHorizontal="50dp"
+            android:paddingVertical="14dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <SearchView
+                    android:id="@+id/searchView"
+                    style="@style/searchtheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/verde"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Buscar..." />
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
+
+    </LinearLayout>
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
             app:menu="@menu/bottom_navigation"
             app:labelVisibilityMode="labeled"
-            app:itemIconSize="30dp"
+            app:itemIconSize="35dp"
             app:itemTextAppearanceActiveBoldEnabled="true"
             style="@style/BottomNavigation"/>
 
-    </LinearLayout>
-</LinearLayout>
+
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/lateral_navigation"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:background="@color/naranja"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@id/bottom_navigation"
+        />
+
+</RelativeLayout>
