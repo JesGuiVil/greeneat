@@ -28,26 +28,26 @@ public class ClienteActivity extends AppCompatActivity {
         navigation.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
         loadFragment(inicioFragment);
         lateralNavigationView = findViewById(R.id.lateral_navigation);
+        showHideLateralNavigationView(false);
 
     }
 
-    private final  NavigationBarView.OnItemSelectedListener mOnNavigationItemSelectedListener = new NavigationBarView.OnItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getTitle().toString()) {
-                case "Inicio":
-                    loadFragment(inicioFragment);
-                    return true;
-                case "Carrito":
-                    loadFragment(carritoFragment);
-                    return true;
-                case "Cuenta":
-                    loadFragment(cuentaFragment);
-                    showHideLateralNavigationView(true);
-                    return true;
-            }
-            return false;
+    private final  NavigationBarView.OnItemSelectedListener mOnNavigationItemSelectedListener = item -> {
+        switch (item.getTitle().toString()) {
+            case "Inicio":
+                loadFragment(inicioFragment);
+                showHideLateralNavigationView(false);
+                return true;
+            case "Carrito":
+                loadFragment(carritoFragment);
+                showHideLateralNavigationView(false);
+                return true;
+            case "Cuenta":
+                loadFragment(cuentaFragment);
+                showHideLateralNavigationView(true);
+                return true;
         }
+        return false;
     };
 
 
