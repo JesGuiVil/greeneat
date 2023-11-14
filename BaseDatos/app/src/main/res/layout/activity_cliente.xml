@@ -68,9 +68,12 @@
             android:id="@+id/lateral_navigation"
             android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:background="@color/naranja"
+            android:background="#FFFFFF"
+            app:menu="@menu/lateral_navigation"
+            app:headerLayout="@layout/lateral_header"
             android:layout_alignParentEnd="true"
             android:layout_above="@id/bottom_navigation"
+
         />
 
 </RelativeLayout>
