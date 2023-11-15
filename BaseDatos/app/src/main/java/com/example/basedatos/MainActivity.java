@@ -2,6 +2,7 @@ package com.example.basedatos;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,22 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DbHelper(this);
         correoEditText = findViewById(R.id.correo_elogin);
         contraseniaEditText = findViewById(R.id.Contrasenialogin);
+
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+
+        // Verificar si hay un ID de usuario almacenado en las preferencias compartidas
+        long idUsuarioAlmacenado = prefs.getLong("idUsuario", -1);
+
+        if (idUsuarioAlmacenado != -1) {
+            // Si hay un ID de usuario almacenado, dirigir al usuario directamente a la actividad correspondiente
+            int admin = prefs.getInt("admin", -1);
+
+            if (admin == 1) {
+                irAAdminActivity(idUsuarioAlmacenado, 1);
+            } else if (admin == 0) {
+                irAClienteActivity(idUsuarioAlmacenado, 0);
+            }
+        }
 
         File archivo=new File("/data/data/com.example.basedatos/databases/ejemplo.db");
         if (archivo.exists()){
@@ -56,11 +73,12 @@ public class MainActivity extends AppCompatActivity {
                 String contrasenia = contraseniaEditText.getText().toString();
 
                 long idUsuario = obtenerIdUsuario(correo); // Obten el ID del usuario
+                int admin = validarUsuario(correo, contrasenia);
 
-                if (validarUsuario(correo, contrasenia) == 1) {
-                    irAAdminActivity(idUsuario);
-                } else if (validarUsuario(correo, contrasenia) == 0) {
-                    irAClienteActivity(idUsuario);
+                if (admin == 1) {
+                    irAAdminActivity(idUsuario, 1);
+                } else if (admin == 0) {
+                    irAClienteActivity(idUsuario, 0);
                 }
             }
         });
@@ -115,17 +133,33 @@ public class MainActivity extends AppCompatActivity {
         return idUsuario;
     }
 
-    private void irAAdminActivity(long idUsuario) {
+    private void irAAdminActivity(long idUsuario, int admin) {
+        // Guardar información del usuario en preferencias compartidas con admin = 1 para administradores
+        guardarDatosUsuario(idUsuario, admin);
+
         Intent intent = new Intent(MainActivity.this, AdminActivity.class);
-        intent.putExtra("idUsuario", idUsuario);
         startActivity(intent);
         finish();
     }
 
-    private void irAClienteActivity(long idUsuario) {
+    private void irAClienteActivity(long idUsuario, int admin) {
+        // Guardar información del usuario en preferencias compartidas con admin = 0 para clientes
+        guardarDatosUsuario(idUsuario, admin);
+
         Intent intent = new Intent(MainActivity.this, ClienteActivity.class);
-        intent.putExtra("idUsuario", idUsuario);
         startActivity(intent);
         finish();
+    }
+    private void guardarDatosUsuario(long idUsuario, int admin) {
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // Guardar el ID de usuario
+        editor.putLong("idUsuario", idUsuario);
+        editor.putInt("admin", admin);
+
+        // Guardar cualquier otra información que desees recordar
+
+        editor.apply();
     }
 }

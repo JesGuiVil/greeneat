@@ -1,5 +1,7 @@
 package com.example.basedatos;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,19 +19,47 @@ public class ClienteActivity extends AppCompatActivity {
     CarritoFragment carritoFragment = new CarritoFragment();
     CuentaFragment cuentaFragment = new CuentaFragment();
     private NavigationView lateralNavigationView;
+    private NavigationBarView navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cliente);
 
-        NavigationBarView navigation = findViewById(R.id.bottom_navigation);
+        navigation = findViewById(R.id.bottom_navigation);
 
         navigation.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
         loadFragment(inicioFragment);
         lateralNavigationView = findViewById(R.id.lateral_navigation);
+        lateralNavigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         showHideLateralNavigationView(false);
 
+    }
+    private boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getTitle().toString()) {
+            // Otros casos aquí
+
+            case "Cerrar sesion":
+                // Manejar el clic en "Cerrar sesión"
+                cerrarSesion();
+                return true;
+        }
+        return false;
+    }
+
+    private void cerrarSesion() {
+        // Borrar información del usuario en preferencias compartidas
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // Borrar el ID de usuario y cualquier otra información relacionada
+        editor.remove("idUsuario");
+        editor.remove("admin");
+        editor.apply();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private final  NavigationBarView.OnItemSelectedListener mOnNavigationItemSelectedListener = item -> {
@@ -49,7 +79,25 @@ public class ClienteActivity extends AppCompatActivity {
         }
         return false;
     };
+    public void onBackPressed() {
+        if (lateralNavigationView.getVisibility() == View.VISIBLE) {
+            // Si el lateral navigation está visible, ocúltalo
+            showHideLateralNavigationView(false);
+        } else {
+            // Si el lateral navigation está oculto
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
 
+            if (currentFragment == cuentaFragment) {
+                // Si la cuenta está seleccionada, vuelve a inicio
+                loadFragment(inicioFragment);
+                navigation.setSelectedItemId(R.id.iniciomenu);
+                showHideLateralNavigationView(false);
+            } else if (currentFragment == inicioFragment) {
+                // Si ya estás en inicio, cierra la aplicación
+                super.onBackPressed();
+            }
+        }
+    }
 
 
 
@@ -67,5 +115,6 @@ public class ClienteActivity extends AppCompatActivity {
             lateralNavigationView.setEnabled(false);
         }
     }
+
 }
 
