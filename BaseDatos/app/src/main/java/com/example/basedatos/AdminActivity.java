@@ -107,6 +107,13 @@ public class AdminActivity extends AppCompatActivity {
 
             }
         });
+        btnlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnborrar.setOnClickListener(new View.OnClickListener() {
             @Override
