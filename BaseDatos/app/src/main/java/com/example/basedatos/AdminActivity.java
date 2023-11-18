@@ -23,7 +23,6 @@ public class AdminActivity extends AppCompatActivity {
         Button btnborrar = (Button) findViewById(R.id.borrar);
         Button btnanadir = (Button) findViewById(R.id.Anadir);
         Button btnmodificar = (Button) findViewById(R.id.Modificar);
-        Button btnlogin = (Button) findViewById(R.id.Login);
         Button btneliminar = (Button) findViewById(R.id.Eliminar);
         Button mostrarProductosButton = findViewById(R.id.mostrarProductos);
         Button btnsalir = findViewById(R.id.salir);
@@ -81,9 +80,6 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         btnmodificar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(AdminActivity.this, ModificarActivity.class);
@@ -105,13 +101,6 @@ public class AdminActivity extends AppCompatActivity {
                 Intent intent = new Intent(AdminActivity.this, MostrarActivity.class);
                 startActivity(intent);
 
-            }
-        });
-        btnlogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AdminActivity.this, MainActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -168,7 +157,7 @@ public class AdminActivity extends AppCompatActivity {
         });
         btnsalir.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                finish();
+                SessionManager.cerrarSesion(AdminActivity.this);
             }
         });
     }
