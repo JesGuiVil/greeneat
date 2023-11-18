@@ -41,25 +41,10 @@ public class ClienteActivity extends AppCompatActivity {
 
             case "Cerrar sesion":
                 // Manejar el clic en "Cerrar sesión"
-                cerrarSesion();
+                SessionManager.cerrarSesion(this);
                 return true;
         }
         return false;
-    }
-
-    private void cerrarSesion() {
-        // Borrar información del usuario en preferencias compartidas
-        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        // Borrar el ID de usuario y cualquier otra información relacionada
-        editor.remove("idUsuario");
-        editor.remove("admin");
-        editor.apply();
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private final  NavigationBarView.OnItemSelectedListener mOnNavigationItemSelectedListener = item -> {
