@@ -1,4 +1,3 @@
-
 package com.example.basedatos;
 
 import android.content.ContentValues;
@@ -85,7 +84,7 @@ public class DbHelper extends SQLiteOpenHelper {
         String CREATE_PRODUCTO_TABLE = "CREATE TABLE Productos (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Nombre TEXT, " +
-                "Seccion TEXT, " +
+                "Categoria TEXT CHECK (Categoria IN ('HORTALIZAS', 'CEREALES', 'LEGUMBRES', 'FRUTAS', 'MIELES', 'LACTEOS', 'CARNE', 'PESCADOS', 'CHARCUTERIA', 'CONSERVAS_VEGETALES', 'BEBIDAS', 'COSMETICA', 'HIGIENE')), " +
                 "Precio REAL, " +
                 "IVA REAL, " +
                 "Peso REAL, " +

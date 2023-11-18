@@ -22,7 +22,7 @@ import java.io.IOException;
 
 public class AnadirActivity extends AppCompatActivity {
 
-    EditText nombreEditText, seccionEditText, precioEditText, ivaEditText, pesoEditText, stockEditText, descripcionEditText, idProveedor;
+    EditText nombreEditText, categoriaEditText, precioEditText, ivaEditText, pesoEditText, stockEditText, descripcionEditText, idProveedor;
     ImageView imagenProducto;
     Uri imagenUri;
     DbHelper dbHelper;
@@ -36,7 +36,7 @@ public class AnadirActivity extends AppCompatActivity {
 
         // Obtener referencias a los EditText e ImageView
         nombreEditText = findViewById(R.id.Nombre);
-        seccionEditText = findViewById(R.id.Seccion);
+        categoriaEditText = findViewById(R.id.Seccion);
         precioEditText = findViewById(R.id.Precio);
         ivaEditText = findViewById(R.id.IVA);
         pesoEditText = findViewById(R.id.Peso);
@@ -64,7 +64,7 @@ public class AnadirActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Obtener los valores de los EditText
                 String nombre = nombreEditText.getText().toString();
-                String seccion = seccionEditText.getText().toString();
+                String categoria = categoriaEditText.getText().toString();
                 double precio = Double.parseDouble(precioEditText.getText().toString());
                 double iva = Double.parseDouble(ivaEditText.getText().toString());
                 double peso = Double.parseDouble(pesoEditText.getText().toString());
@@ -72,7 +72,7 @@ public class AnadirActivity extends AppCompatActivity {
                 String descripcion = descripcionEditText.getText().toString();
 
                 // Validar que los campos no estén vacíos
-                if (nombre.isEmpty() || seccion.isEmpty()) {
+                if (nombre.isEmpty() || categoria.isEmpty()) {
                     Toast.makeText(AnadirActivity.this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
@@ -82,7 +82,7 @@ public class AnadirActivity extends AppCompatActivity {
                         // Crear un objeto ContentValues para insertar datos
                         ContentValues values = new ContentValues();
                         values.put("Nombre", nombre);
-                        values.put("Seccion", seccion);
+                        values.put("Categoria", categoria);
                         values.put("Precio", precio);
                         values.put("IVA", iva);
                         values.put("Peso", peso);
@@ -120,7 +120,7 @@ public class AnadirActivity extends AppCompatActivity {
 
                             // Limpia los campos y la imagen
                             nombreEditText.setText("");
-                            seccionEditText.setText("");
+                            categoriaEditText.setText("");
                             precioEditText.setText("");
                             ivaEditText.setText("");
                             pesoEditText.setText("");

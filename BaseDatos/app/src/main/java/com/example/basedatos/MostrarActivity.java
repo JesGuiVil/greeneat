@@ -48,7 +48,7 @@ public class MostrarActivity extends AppCompatActivity {
                 do {
                     int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                     String nombre = cursor.getString(cursor.getColumnIndexOrThrow("Nombre"));
-                    String seccion = cursor.getString(cursor.getColumnIndexOrThrow("Seccion"));
+                    String categoria = cursor.getString(cursor.getColumnIndexOrThrow("Categoria"));  // Cambiado de "Seccion" a "Categoria"
                     double precio = cursor.getDouble(cursor.getColumnIndexOrThrow("Precio"));
                     double iva = cursor.getDouble(cursor.getColumnIndexOrThrow("IVA"));
                     double peso = cursor.getDouble(cursor.getColumnIndexOrThrow("Peso"));
