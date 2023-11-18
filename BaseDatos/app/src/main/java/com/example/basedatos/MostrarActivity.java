@@ -2,23 +2,33 @@ package com.example.basedatos;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import com.bumptech.glide.Glide;
 
 public class MostrarActivity extends AppCompatActivity {
 
     TextView resultadosTextView;
+    LinearLayout linearLayoutContenido;
     DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar);
+
         dbHelper = new DbHelper(this);
         resultadosTextView = findViewById(R.id.elimi);
+        linearLayoutContenido = findViewById(R.id.linearLayoutContenido);
+
         mostrarRegistros();
 
         Button volverButton = findViewById(R.id.Volver);
@@ -31,8 +41,6 @@ public class MostrarActivity extends AppCompatActivity {
     }
 
     private void mostrarRegistros() {
-        StringBuilder result = new StringBuilder();
-
         try (SQLiteDatabase db = dbHelper.getReadableDatabase();
              Cursor cursor = db.query("Productos", null, null, null, null, null, null)) {
 
@@ -47,28 +55,56 @@ public class MostrarActivity extends AppCompatActivity {
                     int stock = cursor.getInt(cursor.getColumnIndexOrThrow("Stock"));
                     String descripcion = cursor.getString(cursor.getColumnIndexOrThrow("Descripcion"));
                     int idProveedor = cursor.getInt(cursor.getColumnIndexOrThrow("ID_Proveedor"));
-                    String imagenPath = cursor.getString(cursor.getColumnIndexOrThrow("Imagen"));
+                    // Obtener la imagen como array de bytes desde el cursor
+                    byte[] imagenEnBytes = cursor.getBlob(cursor.getColumnIndexOrThrow("Imagen"));
 
-                    result.append("ID: ").append(id).append("\n");
-                    result.append("Nombre: ").append(nombre).append("\n");
-                    result.append("Sección: ").append(seccion).append("\n");
-                    result.append("Precio: ").append(precio).append("\n");
-                    result.append("IVA: ").append(iva).append("\n");
-                    result.append("Peso: ").append(peso).append("\n");
-                    result.append("Stock: ").append(stock).append("\n");
-                    result.append("Descripción: ").append(descripcion).append("\n");
-                    result.append("ID Proveedor: ").append(idProveedor).append("\n");
-                    result.append("Imagen: ").append(imagenPath).append("\n\n");
+                    // Convertir el array de bytes a un Bitmap
+                    Bitmap imagenBitmap = BitmapFactory.decodeByteArray(imagenEnBytes, 0, imagenEnBytes.length);
+
+                    // Crea un nuevo ImageView y configura la carga de la imagen con el Bitmap
+                    ImageView imageViewProducto = new ImageView(this);
+                    imageViewProducto.setLayoutParams(new LinearLayout.LayoutParams(
+                            100, // ancho en píxeles
+                            100  // altura en píxeles
+                    ));
+
+                    // Establecer el Bitmap en el ImageView
+                    imageViewProducto.setImageBitmap(imagenBitmap);
+
+                    // Crea un nuevo TextView y configura el nombre del producto
+                    TextView textViewNombre = new TextView(this);
+                    textViewNombre.setLayoutParams(new LinearLayout.LayoutParams(
+                            0,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            1
+                    ));
+                    textViewNombre.setText(nombre);
+                    textViewNombre.setTextSize(20);
+
+                    // Crea un contenedor para ImageView y TextView
+                    LinearLayout itemLayout = new LinearLayout(this);
+                    itemLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                    itemLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    itemLayout.addView(imageViewProducto);
+                    itemLayout.addView(textViewNombre);
+
+                    // Agrega el contenedor al LinearLayout principal
+                    linearLayoutContenido.addView(itemLayout);
+
+                    // Resto del código...
+                    // Puedes continuar aquí con la construcción de la cadena result y mostrar los demás datos
+
                 } while (cursor.moveToNext());
             } else {
-                result.append("No se encontraron registros.");
+                resultadosTextView.setText("No se encontraron registros.");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            result.append("Error al obtener registros.");
+            resultadosTextView.setText("Error al obtener registros.");
         }
-
-        resultadosTextView.setText(result.toString());
     }
 }
