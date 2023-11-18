@@ -20,6 +20,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayoutContenido"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,21 +39,22 @@
                 <!-- Agregar ImageView para mostrar la imagen -->
                 <ImageView
                     android:id="@+id/imageViewProducto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginEnd="20dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter" />
 
                 <TextView
                     android:id="@+id/textViewNombre"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text=""
                     android:textSize="20dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="20dp" />
+                    android:layout_marginEnd="20dp" />
 
                 <!-- Resto de tu diseño -->
 

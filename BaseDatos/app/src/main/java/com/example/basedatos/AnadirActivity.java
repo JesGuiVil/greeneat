@@ -3,8 +3,10 @@ package com.example.basedatos;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +15,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 
 public class AnadirActivity extends AppCompatActivity {
@@ -85,9 +90,24 @@ public class AnadirActivity extends AppCompatActivity {
                         values.put("Descripcion", descripcion);
                         values.put("ID_Proveedor", String.valueOf(idProveedor));
 
-                        // Si se seleccionó una imagen, guardar la ruta en la base de datos
+                        // Si se seleccionó una imagen, redimensionarla antes de guardarla en la base de datos
                         if (imagenUri != null) {
-                            values.put("Imagen", imagenUri.toString());
+                            Bitmap imagenRedimensionada = redimensionarImagen(imagenUri, 400, 400);
+
+                            // Verificar si la redimensión fue exitosa
+                            if (imagenRedimensionada != null) {
+                                // Guardar la imagen redimensionada como BLOB en la base de datos
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                imagenRedimensionada.compress(Bitmap.CompressFormat.PNG, 0, baos);
+                                byte[] imagenEnBytes = baos.toByteArray();
+
+                                // Guardar la imagen como BLOB en la base de datos
+                                values.put("Imagen", imagenEnBytes);
+                            } else {
+                                // Mostrar un mensaje de error si la redimensión falla
+                                Toast.makeText(AnadirActivity.this, "Error al redimensionar la imagen", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                         }
 
                         // Insertar los datos en la base de datos
@@ -130,6 +150,27 @@ public class AnadirActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    private Bitmap redimensionarImagen(Uri uri, int nuevoAncho, int nuevoAlto) {
+        try {
+            // Obtener la imagen original
+            Bitmap bitmapOriginal = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+
+            // Calcular las nuevas dimensiones proporcionales
+            float proporcionAncho = ((float) nuevoAncho) / bitmapOriginal.getWidth();
+            float proporcionAlto = ((float) nuevoAlto) / bitmapOriginal.getHeight();
+            float proporcionMasPequena = Math.min(proporcionAncho, proporcionAlto);
+
+            // Aplicar la redimensión
+            int anchoRedimensionado = Math.round(proporcionMasPequena * bitmapOriginal.getWidth());
+            int altoRedimensionado = Math.round(proporcionMasPequena * bitmapOriginal.getHeight());
+
+            return Bitmap.createScaledBitmap(bitmapOriginal, anchoRedimensionado, altoRedimensionado, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al redimensionar la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     @Override
