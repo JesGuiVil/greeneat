@@ -56,7 +56,7 @@ public class AnadirActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
-
+//ju
         // Botón para enviar los datos del producto
         Button enviarButton = findViewById(R.id.Enviar);
         enviarButton.setOnClickListener(new View.OnClickListener() {
