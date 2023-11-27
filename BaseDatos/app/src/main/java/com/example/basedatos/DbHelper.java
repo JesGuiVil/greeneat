@@ -91,6 +91,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 "Stock INTEGER, " +
                 "Descripcion TEXT, " +
                 "ID_Proveedor INTEGER, " +
+                "EnOferta INTEGER DEFAULT 0, " +
                 "Imagen BLOB, " +  // Nuevo campo para la ruta de la imagen
                 "FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores(id) " +
                 ")";
