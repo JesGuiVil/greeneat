@@ -84,7 +84,7 @@ public class DbHelper extends SQLiteOpenHelper {
         String CREATE_PRODUCTO_TABLE = "CREATE TABLE Productos (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Nombre TEXT, " +
-                "Categoria TEXT CHECK (Categoria IN ('HORTALIZAS', 'CEREALES', 'LEGUMBRES', 'FRUTAS', 'MIELES', 'LACTEOS', 'CARNE', 'PESCADOS', 'CHARCUTERIA', 'CONSERVAS_VEGETALES', 'BEBIDAS', 'COSMETICA', 'HIGIENE')), " +
+                "Categoria TEXT CHECK (Categoria IN ('FRUTAS Y HORTALIZAS', 'CEREALES', 'LACTEOS', 'CARNES Y PESCADOS', 'BEBIDAS')), " +
                 "Precio REAL, " +
                 "IVA REAL, " +
                 "Peso REAL, " +
