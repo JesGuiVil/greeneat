@@ -13,6 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.security.MessageDigest;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class MainActivity extends AppCompatActivity {
     EditText correoEditText, contraseniaEditText;
@@ -45,15 +50,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        File archivo=new File("/data/data/com.example.basedatos/databases/ejemplo.db");
-        if (archivo.exists()){
+        File archivo = new File("/data/data/com.example.basedatos/databases/ejemplo.db");
+        if (archivo.exists()) {
             Toast.makeText(MainActivity.this, "CONECTADO A LA BASE DE DATOS", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             DbHelper dbhelper = new DbHelper(MainActivity.this);
             SQLiteDatabase db = dbhelper.getWritableDatabase();
-            if (db!=null){
+            if (db != null) {
                 Toast.makeText(MainActivity.this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
-            }else{
+            } else {
                 Toast.makeText(MainActivity.this, "ERROR EN BASE DE DATOS", Toast.LENGTH_LONG).show();
             }
         }
@@ -83,27 +88,52 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }private int validarUsuario(String correo, String contrasenia) {
-        Cursor cursor = db.rawQuery("SELECT * FROM Usuarios WHERE Correo_e = ? AND Contrasenia = ?",
-                new String[]{correo, contrasenia});
+    }
 
-        if (cursor != null && cursor.moveToFirst()) {
-            int adminColumnIndex = cursor.getColumnIndex("Admin");
+    private int validarUsuario(String correo, String contrasenia) {
+        try {
+            // Encripta la contraseña ingresada por el usuario
+            String contraseniaEncriptada = encriptar(contrasenia);
 
-            if (adminColumnIndex != -1) {
-                int admin = cursor.getInt(adminColumnIndex);
-                cursor.close();
-                mostrarMensajeDeInicioDeSesion(admin);
-                return admin;
+            Cursor cursor = db.rawQuery("SELECT * FROM Usuarios WHERE Correo_e = ? AND Contrasenia = ?",
+                    new String[]{correo, contraseniaEncriptada});
+
+            if (cursor != null && cursor.moveToFirst()) {
+                int adminColumnIndex = cursor.getColumnIndex("Admin");
+
+                if (adminColumnIndex != -1) {
+                    int admin = cursor.getInt(adminColumnIndex);
+                    cursor.close();
+                    mostrarMensajeDeInicioDeSesion(admin);
+                    return admin;
+                } else {
+                    cursor.close();
+                }
             } else {
-                cursor.close();
+                if (cursor != null) {
+                    cursor.close();
+                }
             }
-        } else {
-            if (cursor != null) {
-                cursor.close();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return -1; // Valor predeterminado si no se encuentra el usuario
+    }
+
+    protected String encriptar(String contrasenia) throws Exception {
+        // Utiliza una clave secreta segura
+        String claveSecreta = "tu_clave_secreta";
+        SecretKeySpec secretKey = generateKey(claveSecreta);
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        byte[] datosEncriptadosBytes = cipher.doFinal(contrasenia.getBytes());
+        return Base64.getEncoder().encodeToString(datosEncriptadosBytes);
+    }
+    private static SecretKeySpec generateKey(String password) throws Exception {
+        MessageDigest sha = MessageDigest.getInstance("SHA-256");
+        byte[] key = password.getBytes("UTF-8");
+        key = sha.digest(key);
+        return new SecretKeySpec(key, "AES");
     }
 
     private void mostrarMensajeDeInicioDeSesion(int admin) {
@@ -150,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
     private void guardarDatosUsuario(long idUsuario, int admin) {
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

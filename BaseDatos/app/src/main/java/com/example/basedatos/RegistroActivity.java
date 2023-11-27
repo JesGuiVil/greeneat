@@ -11,8 +11,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 public class RegistroActivity extends AppCompatActivity {
     DbHelper dbHelper;
@@ -44,6 +49,14 @@ public class RegistroActivity extends AppCompatActivity {
                 int telefono = Integer.parseInt(editTextTelefono.getText().toString());
                 String correo = editTextCorreo.getText().toString();
                 String contrasenia = editTextContrasenia.getText().toString();
+                String contraseniaEncriptada = "";
+
+                try {
+                    // Encripta la contraseña antes de almacenarla en la base de datos
+                    contraseniaEncriptada = encriptar(contrasenia);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 String fechaAlta = obtenerFechaActual(); // Implementa esta función
                 String nif = editTextNIF.getText().toString();
                 int admin = 0; // Siempre será 0 para clientes
@@ -55,7 +68,7 @@ public class RegistroActivity extends AppCompatActivity {
                 values.put("Direccion", direccion);
                 values.put("Telefono", telefono);
                 values.put("Correo_e", correo);
-                values.put("Contrasenia", contrasenia);
+                values.put("Contrasenia", contraseniaEncriptada);
                 values.put("Fecha_alta", fechaAlta);
                 values.put("NIF", nif);
                 values.put("Admin", admin);
@@ -82,6 +95,22 @@ public class RegistroActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaActual = new Date();
         return dateFormat.format(fechaActual);
+    }
+
+    protected String encriptar(String contrasenia) throws Exception {
+        // Utiliza una clave secreta segura
+        String claveSecreta = "tu_clave_secreta";
+        SecretKeySpec secretKey = generateKey(claveSecreta);
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        byte[] datosEncriptadosBytes = cipher.doFinal(contrasenia.getBytes());
+        return Base64.getEncoder().encodeToString(datosEncriptadosBytes);
+    }
+    private static SecretKeySpec generateKey(String password) throws Exception {
+        MessageDigest sha = MessageDigest.getInstance("SHA-256");
+        byte[] key = password.getBytes("UTF-8");
+        key = sha.digest(key);
+        return new SecretKeySpec(key, "AES");
     }
 }
 
