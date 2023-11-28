@@ -36,6 +36,9 @@
             android:name=".ClienteActivity"
             android:screenOrientation="fullSensor" />
         <activity
+            android:name=".InvitadoActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
             android:name=".RegistroActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="fullSensor" />

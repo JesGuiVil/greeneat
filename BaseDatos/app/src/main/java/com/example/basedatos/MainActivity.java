@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView Registro = (TextView) findViewById(R.id.Registro);
+        TextView Invitado = (TextView) findViewById(R.id.Invitado);
         Button iniciarsesion = (Button) findViewById(R.id.iniciarsesion);
         dbHelper = new DbHelper(this);
         correoEditText = findViewById(R.id.correo_elogin);
@@ -66,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
         Registro.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RegistroActivity.class);
+                startActivity(intent);
+            }
+        });
+        Invitado.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InvitadoActivity.class);
                 startActivity(intent);
             }
         });
@@ -185,12 +192,36 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
+        String nombreUsuario = obtenerNombreUsuario(idUsuario);
+        String correoUsuario = obtenerCorreoUsuario(idUsuario);
+
         // Guardar el ID de usuario
         editor.putLong("idUsuario", idUsuario);
         editor.putInt("admin", admin);
+        editor.putString("nombreUsuario", nombreUsuario);
+        editor.putString("correoUsuario", correoUsuario);
 
         // Guardar cualquier otra información que desees recordar
 
         editor.apply();
+    }
+    private String obtenerNombreUsuario(long idUsuario) {
+        SQLiteDatabase db = getReadableDatabase();
+        String nombreUsuario = "";
+
+        Cursor cursor = db.rawQuery("SELECT Nombre FROM Usuarios WHERE id = ?",
+                new String[]{String.valueOf(idUsuario)});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                nombreUsuario = cursor.getString(cursor.getColumnIndex("Nombre"));
+            }
+            cursor.close();
+        }
+
+        return nombreUsuario;
+    }
+    private String obtenerCorreoUsuario(long idUsuario) {
+        return correoUsuario;
     }
 }
