@@ -74,7 +74,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesUsuarios.put("Direccion", "greeneat 1");
         valuesUsuarios.put("Telefono", 954999999);
         valuesUsuarios.put("Correo_e", "admin@greeneat.com");
-        valuesUsuarios.put("Contrasenia", "admin");
+        valuesUsuarios.put("Contrasenia", "k6hjb/ilMgFGewOkgP/t7g==");
         valuesUsuarios.put("NIF", "12345678A");
         valuesUsuarios.put("Fecha_alta", obtenerFechaActual());
 

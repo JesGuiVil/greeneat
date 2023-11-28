@@ -1,164 +1,131 @@
 package com.example.basedatos;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import java.io.File;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 
 public class AdminActivity extends AppCompatActivity {
+    ProductoFragment productoFragment = new ProductoFragment();
+    ProveedoresFragment proveedoresFragment = new ProveedoresFragment();
+    ClienteFragment clienteFragment = new ClienteFragment();
+    PedidosFragment pedidosFragment = new PedidosFragment();
+    CuentaFragment cuentaFragment = new CuentaFragment();
+    private NavigationView lateralNavigationView;
+    private NavigationBarView navigation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-        Button btn = (Button) findViewById(R.id.Crear);
-        Button btnborrar = (Button) findViewById(R.id.borrar);
-        Button btnanadir = (Button) findViewById(R.id.Anadir);
-        Button btnmodificar = (Button) findViewById(R.id.Modificar);
-        Button btneliminar = (Button) findViewById(R.id.Eliminar);
-        Button mostrarProductosButton = findViewById(R.id.mostrarProductos);
-        Button btnsalir = findViewById(R.id.salir);
-        File archivo=new File("/data/data/com.example.basedatos/databases/ejemplo.db");
-        if (archivo.exists()){
-            btn.setEnabled(false);
-            btn.setText("conectado a la base de datos");
-            btnborrar.setEnabled(true);
-            btnanadir.setEnabled(true);
-            btnmodificar.setEnabled(true);
-            btneliminar.setEnabled(true);
-            mostrarProductosButton.setEnabled(true);
-        }else{
-            btn.setEnabled(true);
-            btnborrar.setEnabled(false);
-            btn.setText("crear base de datos");
-            mostrarProductosButton.setEnabled(false);
-            btnanadir.setEnabled(false);
-            btnmodificar.setEnabled(false);
-            btneliminar.setEnabled(false);
-        }
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                DbHelper dbhelper = new DbHelper(AdminActivity.this);
-                SQLiteDatabase db = dbhelper.getWritableDatabase();
-                if (db!=null){
-                    Toast.makeText(AdminActivity.this, "BASE DE DATOS CREADA", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(AdminActivity.this, "ERROR EN BASE DE DATOS", Toast.LENGTH_LONG).show();
-                }
-                if (archivo.exists()){
-                    btn.setEnabled(false);
-                    btn.setText("conectado a la base de datos");
-                    btnborrar.setEnabled(true);
-                    btnanadir.setEnabled(true);
-                    btnmodificar.setEnabled(true);
-                    btneliminar.setEnabled(true);
-                    mostrarProductosButton.setEnabled(true);
-                }else{
-                    btn.setEnabled(true);
-                    btnborrar.setEnabled(false);
-                    btn.setText("crear base de datos");
-                    mostrarProductosButton.setEnabled(false);
-                    btnanadir.setEnabled(false);
-                    btnmodificar.setEnabled(false);
-                    btneliminar.setEnabled(false);
-                }
-            }
-        });
-        btnanadir.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(AdminActivity.this, AnadirActivity.class);
-                startActivity(intent);
-            }
-        });
+        navigation = findViewById(R.id.bottom_navigationadmin);
 
-        btnmodificar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(AdminActivity.this, ModificarActivity.class);
-                startActivity(intent);
-            }
-        });
+        navigation.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
+        loadFragment(productoFragment);
+        lateralNavigationView = findViewById(R.id.lateral_navigationadmin);
+        lateralNavigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+        showHideLateralNavigationView(false);
 
+        View headerView = lateralNavigationView.getHeaderView(0);
 
-        btneliminar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(AdminActivity.this, EliminarActivity.class);
-                startActivity(intent);
-            }
-        });
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        long idUsuario = prefs.getLong("idUsuario", -1);
+        String nombreUsuario = prefs.getString("nombreUsuario", "");
+        String correoUsuario = prefs.getString("correoUsuario", "");
 
-        mostrarProductosButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AdminActivity.this, MostrarActivity.class);
-                startActivity(intent);
+        TextView nombreTextView = headerView.findViewById(R.id.nombreusuario);
+        TextView correoTextView = headerView.findViewById(R.id.gmailusuario);
 
-            }
-        });
+// Actualiza los textos con la información del usuario
+        nombreTextView.setText(nombreUsuario);
+        correoTextView.setText(correoUsuario);
 
-        btnborrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DbHelper dbhelper = new DbHelper(AdminActivity.this);
-                SQLiteDatabase db = dbhelper.getWritableDatabase();
-
-                if (db != null) {
-                    // Muestra un cuadro de diálogo de confirmación
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AdminActivity.this);
-                    builder.setMessage("¿Estás seguro de que deseas borrar la base de datos?");
-                    builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Cierra la base de datos antes de eliminarla
-                            db.close();
-                            if (deleteDatabase("ejemplo.db")) {
-                                Toast.makeText(AdminActivity.this, "BASE DE DATOS BORRADA", Toast.LENGTH_LONG).show();
-                                // Deshabilita el botón después de borrar la base de datos
-                                btn.setEnabled(true);
-                                btn.setText("Crear base de datos");
-                            } else {
-                                Toast.makeText(AdminActivity.this, "ERROR AL BORRAR BASE DE DATOS", Toast.LENGTH_LONG).show();
-                            }
-
-                            // Luego de borrar la base de datos, realiza la comprobación de existencia del archivo
-                            if (archivo.exists()) {
-                                btn.setEnabled(false);
-                                btn.setText("Conectado a la base de datos");
-                                btnborrar.setEnabled(true);
-                                btnanadir.setEnabled(true);
-                                btnmodificar.setEnabled(true);
-                                btneliminar.setEnabled(true);
-                                mostrarProductosButton.setEnabled(true);
-                            } else {
-                                btn.setEnabled(true);
-                                btnborrar.setEnabled(false);
-                                btn.setText("Crear base de datos");
-                                btnanadir.setEnabled(false);
-                                btnmodificar.setEnabled(false);
-                                btneliminar.setEnabled(false);
-                                mostrarProductosButton.setEnabled(false);
-                            }
-                        }
-                    });
-                    builder.setNegativeButton("No", null);
-                    builder.show();
-                } else {
-                    Toast.makeText(AdminActivity.this, "NO HAY BASE DE DATOS PARA BORRAR", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        btnsalir.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                SessionManager.cerrarSesion(AdminActivity.this);
-            }
-        });
     }
+    private boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getTitle().toString()) {
+            // Otros casos aquí
+
+            case "Cerrar sesion":
+                // Manejar el clic en "Cerrar sesión"
+                SessionManager.cerrarSesion(this);
+                return true;
+        }
+        return false;
+    }
+
+    private final  NavigationBarView.OnItemSelectedListener mOnNavigationItemSelectedListener = item -> {
+        switch (item.getTitle().toString()) {
+            case "Productos":
+                loadFragment(productoFragment);
+                showHideLateralNavigationView(false);
+                return true;
+            case "Proveedores":
+                loadFragment(proveedoresFragment);
+                showHideLateralNavigationView(false);
+                return true;
+            case "Clientes":
+                loadFragment(clienteFragment);
+                showHideLateralNavigationView(false);
+                return true;
+            case "Pedidos":
+                loadFragment(pedidosFragment);
+                showHideLateralNavigationView(false);
+                return true;
+            case "Cuenta":
+                loadFragment(cuentaFragment);
+                showHideLateralNavigationView(true);
+                return true;
+        }
+        return false;
+    };
+
+    public void onBackPressed() {
+        if (lateralNavigationView.getVisibility() == View.VISIBLE) {
+            // Si el lateral navigation está visible, ocúltalo
+            showHideLateralNavigationView(false);
+        } else {
+            // Si el lateral navigation está oculto
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+
+            if (currentFragment == cuentaFragment) {
+                // Si la cuenta está seleccionada, vuelve a inicio
+                loadFragment(productoFragment);
+                navigation.setSelectedItemId(R.id.iniciomenu);
+                showHideLateralNavigationView(false);
+            } else if (currentFragment == productoFragment) {
+                // Si ya estás en inicio, cierra la aplicación
+                super.onBackPressed();
+            }
+        }
+    }
+
+    public void loadFragment(Fragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, fragment);
+        transaction.commit();
+    }
+    private void showHideLateralNavigationView(boolean show) {
+        if (show) {
+            lateralNavigationView.setVisibility(View.VISIBLE);
+            lateralNavigationView.setEnabled(true);
+        } else {
+            lateralNavigationView.setVisibility(View.GONE);
+            lateralNavigationView.setEnabled(false);
+        }
+    }
+
 }
+
+

@@ -1,6 +1,8 @@
 package com.example.basedatos;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -205,8 +207,10 @@ public class MainActivity extends AppCompatActivity {
 
         editor.apply();
     }
+
+    @SuppressLint("Range")
     private String obtenerNombreUsuario(long idUsuario) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         String nombreUsuario = "";
 
         Cursor cursor = db.rawQuery("SELECT Nombre FROM Usuarios WHERE id = ?",
@@ -221,7 +225,20 @@ public class MainActivity extends AppCompatActivity {
 
         return nombreUsuario;
     }
+    @SuppressLint("Range")
     private String obtenerCorreoUsuario(long idUsuario) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String correoUsuario = "";
+
+        Cursor cursor = db.rawQuery("SELECT Correo_e FROM Usuarios WHERE id = ?",
+                new String[]{String.valueOf(idUsuario)});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                correoUsuario = cursor.getString(cursor.getColumnIndex("Correo_e"));
+            }
+            cursor.close();
+        }
         return correoUsuario;
     }
 }
