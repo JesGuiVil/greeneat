@@ -37,8 +37,11 @@ public class ClienteActivity extends AppCompatActivity {
         showHideLateralNavigationView(false);
 
         View headerView = lateralNavigationView.getHeaderView(0);
-        String nombreUsuario = "";
-        String correoUsuario = "";
+
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        long idUsuario = prefs.getLong("idUsuario", -1);
+        String nombreUsuario = prefs.getString("nombreUsuario", "");
+        String correoUsuario = prefs.getString("correoUsuario", "");
 
         TextView nombreTextView = headerView.findViewById(R.id.nombreusuario);
         TextView correoTextView = headerView.findViewById(R.id.gmailusuario);
@@ -96,9 +99,6 @@ public class ClienteActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
     public void loadFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
@@ -115,4 +115,3 @@ public class ClienteActivity extends AppCompatActivity {
     }
 
 }
-

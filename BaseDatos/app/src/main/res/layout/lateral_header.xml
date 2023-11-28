@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="Ardi Jesus"
+        android:text="nombre Aqui"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -31,5 +31,5 @@
         android:id="@+id/gmailusuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ardijesus@gmail.com" />
+        android:text="email aqui" />
 </LinearLayout>
