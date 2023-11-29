@@ -11,11 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the  factory method to
- * create an instance of this fragment.
- */
 public class ProductoFragment extends Fragment {
 
     // Existing code...
@@ -25,17 +20,15 @@ public class ProductoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_producto, container, false);
 
-        // Find buttons by their IDs
         Button addButton = view.findViewById(R.id.aniadirproducto);
         Button modifyButton = view.findViewById(R.id.modificarproducto);
         Button deleteButton = view.findViewById(R.id.eliminarproducto);
         Button showButton = view.findViewById(R.id.mostrarproducto);
 
-        // Set click listeners for each button
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Replace with the "Add Product" fragment
                 replaceFragment(new AnadirProductoFragment());
             }
         });
@@ -43,7 +36,6 @@ public class ProductoFragment extends Fragment {
         modifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Replace with the "Modify Product" fragment
                 replaceFragment(new ModificarProductoFragment());
             }
         });
@@ -51,7 +43,6 @@ public class ProductoFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Replace with the "Delete Product" fragment
                 replaceFragment(new BorrarProductoFragment());
             }
         });
@@ -59,7 +50,6 @@ public class ProductoFragment extends Fragment {
         showButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Replace with the "Show Product" fragment
                 replaceFragment(new MostrarProductoFragment());
             }
         });
