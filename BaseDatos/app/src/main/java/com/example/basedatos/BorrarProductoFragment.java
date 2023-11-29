@@ -1,64 +1,67 @@
 package com.example.basedatos;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BorrarProductoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 public class BorrarProductoFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public BorrarProductoFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BorrarProductoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BorrarProductoFragment newInstance(String param1, String param2) {
-        BorrarProductoFragment fragment = new BorrarProductoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    EditText idEditText;
+    DbHelper dbHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_borrar_producto, container, false);
+        View view = inflater.inflate(R.layout.fragment_borrar_producto, container, false);
+
+        dbHelper = new DbHelper(requireContext());
+        idEditText = view.findViewById(R.id.ideliminar);
+
+        Button eliminarButton = view.findViewById(R.id.Enviareliminar);
+        eliminarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Obtener el valor del EditText (ID)
+                String id = idEditText.getText().toString();
+
+                // Validar que el campo no esté vacío
+                if (id.isEmpty()) {
+                    Toast.makeText(getActivity(), "Por favor, ingresa un ID válido", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Obtener una instancia de SQLiteDatabase
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+                    // Definir la cláusula WHERE para la eliminación
+                    String selection = "id = ?";
+                    String[] selectionArgs = {id};
+
+                    // Realizar la eliminación de los datos
+                    int rowsDeleted = db.delete("Productos", selection, selectionArgs);
+
+                    // Verificar si la eliminación fue exitosa
+                    if (rowsDeleted > 0) {
+                        // Muestra un mensaje de éxito
+                        Toast.makeText(getActivity(), "Producto eliminado correctamente", Toast.LENGTH_SHORT).show();
+
+                        // Limpia el campo después de eliminar el producto
+                        idEditText.setText("");
+                    } else {
+                        Toast.makeText(getActivity(), "Error al eliminar el producto", Toast.LENGTH_SHORT).show();
+                    }
+
+                    // Cierra la base de datos
+                    db.close();
+                }
+            }
+        });
+        return view;
     }
 }
