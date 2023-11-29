@@ -63,6 +63,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 "NIF TEXT " +
                 ")";
 
+        // hola
+
         db.execSQL(CREATE_USUARIO_TABLE);
 
         ContentValues valuesUsuarios = new ContentValues();
