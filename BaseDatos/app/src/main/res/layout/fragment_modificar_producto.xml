@@ -1,0 +1,83 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ModificarProductoFragment">
+
+    <!-- Encabezado -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:background="#EC9F64">
+
+        <TextView
+            android:id="@+id/elimi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="LISTA DE PRODUCTOS"
+            android:gravity="center"
+            android:textSize="35dp" />
+    </LinearLayout>
+
+    <!-- Contenido Desplazable -->
+    <LinearLayout
+        android:id="@+id/linearLayoutContenido"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Agregar ImageView para mostrar la imagen -->
+                <ImageView
+                    android:id="@+id/imageViewProducto"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:id="@+id/textViewNombre"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp" />
+
+                <!-- Agregar otros elementos según sea necesario -->
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Botón Volver -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:id="@+id/Volver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volver"
+            android:textSize="30dp" />
+    </LinearLayout>
+
+</FrameLayout>
