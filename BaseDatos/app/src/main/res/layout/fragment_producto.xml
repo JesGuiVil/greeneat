@@ -18,7 +18,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,10 +31,10 @@
             android:id="@+id/aniadirproducto"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="#81B62A"
+            android:background="@drawable/hoja"
             android:text="AÑADIR PRODUCTO"
-            android:textColor="#0B3A17"
-            android:textSize="30dp"
+            android:textColor="@color/verde"
+            android:textSize="25dp"
             android:textStyle="bold" />
     </LinearLayout>
     <LinearLayout
@@ -47,10 +48,10 @@
             android:id="@+id/modificarproducto"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="#81B62A"
+            android:background="@drawable/hojados"
             android:text="MODIFICAR PRODUCTO"
-            android:textColor="#0B3A17"
-            android:textSize="30dp"
+            android:textColor="@color/verde"
+            android:textSize="25dp"
             android:textStyle="bold" />
     </LinearLayout>
     <LinearLayout
@@ -64,10 +65,10 @@
             android:id="@+id/eliminarproducto"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="#81B62A"
+            android:background="@drawable/hoja"
             android:text="ELIMINAR PRODUCTO"
-            android:textColor="#0B3A17"
-            android:textSize="30dp"
+            android:textColor="@color/verde"
+            android:textSize="25dp"
             android:textStyle="bold" />
     </LinearLayout>
     <LinearLayout
@@ -81,10 +82,10 @@
             android:id="@+id/mostrarproducto"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="#81B62A"
-            android:text="MOSTRAR PRODUCTO"
-            android:textColor="#0B3A17"
-            android:textSize="30dp"
+            android:background="@drawable/hojados"
+            android:text="MOSTRAR PRODUCTOS"
+            android:textColor="@color/verde"
+            android:textSize="25dp"
             android:textStyle="bold" />
     </LinearLayout>
     </LinearLayout>
