@@ -4,9 +4,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -97,6 +103,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 ")";
 
         db.execSQL(CREATE_PRODUCTO_TABLE);
+        int nuevoAncho = 400;
+        int nuevoAlto = 400;
+        
 
 
         ContentValues valuesProducto1 = new ContentValues();
@@ -109,6 +118,16 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto1.put("Descripcion", "Tomates de Los Palacios");
         valuesProducto1.put("ID_Proveedor", 1);
         valuesProducto1.put("EnOferta", 0);
+        // Obtener la URI de la imagen en la carpeta drawable
+        Context context = null;
+        Uri imagenUriTomates = getImageUri(context, "android.resource://" + context.getPackageName() + "/" + R.drawable.tomate);
+// Redimensionar la imagen
+        byte[] imagenRedimensionadaTomates = redimensionarImagen(imagenUriTomates, nuevoAncho, nuevoAlto, context);
+
+// Insertar la imagen redimensionada en la tabla Productos para los Tomates
+        valuesProducto1.put("Imagen", imagenRedimensionadaTomates);
+        long newRowIdProducto1 = db.insert("Productos", null, valuesProducto1);
+
 
         ContentValues valuesProducto2 = new ContentValues();
         valuesProducto2.put("Nombre", "Zanahorias");
@@ -121,6 +140,11 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto2.put("ID_Proveedor", 1);
         valuesProducto2.put("EnOferta", 0);
 
+        Uri imagenUriZanahorias = getImageUri(context, "android.resource://" + context.getPackageName() + "/" + R.drawable.zanahoria);
+        byte[] imagenRedimensionadaZanahorias = redimensionarImagen(imagenUriZanahorias, nuevoAncho, nuevoAlto, context);
+        valuesProducto2.put("Imagen", imagenRedimensionadaZanahorias);
+        long newRowIdProducto2 = db.insert("Productos", null, valuesProducto2);
+
         ContentValues valuesProducto3 = new ContentValues();
         valuesProducto3.put("Nombre", "Trigo");
         valuesProducto3.put("Categoria", "CEREALES");
@@ -131,6 +155,11 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto3.put("Descripcion", "Trigo en bloques");
         valuesProducto3.put("ID_Proveedor", 1);
         valuesProducto3.put("EnOferta", 0);
+
+        Uri imagenUriTrigo = getImageUri(context, "android.resource://" + context.getPackageName() + "/" + R.drawable.trigo);
+        byte[] imagenRedimensionadaTrigo = redimensionarImagen(imagenUriTrigo, nuevoAncho, nuevoAlto, context);
+        valuesProducto3.put("Imagen", imagenRedimensionadaTrigo);
+        long newRowIdProducto3 = db.insert("Productos", null, valuesProducto3);
 
         ContentValues valuesProducto4 = new ContentValues();
         valuesProducto4.put("Nombre", "Cebada");
@@ -259,5 +288,28 @@ public class DbHelper extends SQLiteOpenHelper {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaActual = new Date();
         return dateFormat.format(fechaActual);
+    }
+    private Uri getImageUri(Context context, String imagePath) {
+        return Uri.parse(imagePath);
+    }
+
+    private byte[] redimensionarImagen(Uri imagenUri, int nuevoAncho, int nuevoAlto, Context context) {
+        try {
+            InputStream is = context.getContentResolver().openInputStream(imagenUri);
+            Bitmap imagenOriginal = BitmapFactory.decodeStream(is);
+            is.close();
+
+            Bitmap imagenRedimensionada = Bitmap.createScaledBitmap(imagenOriginal, nuevoAncho, nuevoAlto, true);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            imagenRedimensionada.compress(Bitmap.CompressFormat.PNG, 0, baos);
+            return baos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
