@@ -33,26 +33,24 @@ public class DbHelper extends SQLiteOpenHelper {
         String CREATE_PROVEEDOR_TABLE = "CREATE TABLE Proveedores (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Nombre TEXT, " +
-                "Apellidos TEXT, " +
                 "Direccion TEXT, " +
                 "Telefono INTEGER, " +
                 "Correo_e TEXT," +
                 "Fecha_alta DATE, " +
-                "NIF TEXT " +
+                "CIF TEXT " +
                 ")";
 
         db.execSQL(CREATE_PROVEEDOR_TABLE);
         ContentValues valuesProveedores = new ContentValues();
 
         valuesProveedores.put("Nombre", "CooSur");
-        valuesProveedores.put("Apellidos", "CoopAgricola");
         valuesProveedores.put("Direccion", "greeneat 1");
         valuesProveedores.put("Telefono", 954999999);
         valuesProveedores.put("Correo_e", "admin@coosur.com");
         valuesProveedores.put("Fecha_alta", obtenerFechaActual());
-        valuesProveedores.put("NIF", "12345678A");
+        valuesProveedores.put("CIF", "12345678A");
 
-        long newRowIdProveedores = db.insert("Proveedores", null, valuesProveedores);
+        db.insert("Proveedores", null, valuesProveedores);
 
 
         // Tabla Usuario
@@ -84,7 +82,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesUsuarios.put("NIF", "12345678A");
         valuesUsuarios.put("Fecha_alta", obtenerFechaActual());
 
-        long newRowIdUsuarios = db.insert("Usuarios", null, valuesUsuarios);
+        db.insert("Usuarios", null, valuesUsuarios);
 
         // Tabla Producto
         String CREATE_PRODUCTO_TABLE = "CREATE TABLE Productos (" +
@@ -126,7 +124,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 // Insertar la imagen redimensionada en la tabla Productos para los Tomates
         valuesProducto1.put("Imagen", imagenRedimensionadaTomates);
-        long newRowIdProducto1 = db.insert("Productos", null, valuesProducto1);
+        db.insert("Productos", null, valuesProducto1);
 
 
         ContentValues valuesProducto2 = new ContentValues();
@@ -143,7 +141,7 @@ public class DbHelper extends SQLiteOpenHelper {
         Uri imagenUriZanahorias = getImageUri(context, "android.resource://" + context.getPackageName() + "/" + R.drawable.zanahoria);
         byte[] imagenRedimensionadaZanahorias = redimensionarImagen(imagenUriZanahorias, nuevoAncho, nuevoAlto, context);
         valuesProducto2.put("Imagen", imagenRedimensionadaZanahorias);
-        long newRowIdProducto2 = db.insert("Productos", null, valuesProducto2);
+        db.insert("Productos", null, valuesProducto2);
 
         ContentValues valuesProducto3 = new ContentValues();
         valuesProducto3.put("Nombre", "Trigo");
@@ -159,7 +157,7 @@ public class DbHelper extends SQLiteOpenHelper {
         Uri imagenUriTrigo = getImageUri(context, "android.resource://" + context.getPackageName() + "/" + R.drawable.trigo);
         byte[] imagenRedimensionadaTrigo = redimensionarImagen(imagenUriTrigo, nuevoAncho, nuevoAlto, context);
         valuesProducto3.put("Imagen", imagenRedimensionadaTrigo);
-        long newRowIdProducto3 = db.insert("Productos", null, valuesProducto3);
+        db.insert("Productos", null, valuesProducto3);
 
         ContentValues valuesProducto4 = new ContentValues();
         valuesProducto4.put("Nombre", "Cebada");
