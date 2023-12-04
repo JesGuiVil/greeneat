@@ -1,12 +1,21 @@
 package com.example.basedatos;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,18 +56,73 @@ public class MostrarProductoFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mostrar_producto, container, false);
+        View view = inflater.inflate(R.layout.fragment_mostrar_producto, container, false);
+
+        // Find views in the inflated layout
+        LinearLayout linearLayoutContenido = view.findViewById(R.id.linearLayoutContenido);
+
+        // Replace this with your actual database helper class
+        DbHelper dbHelper = new DbHelper(requireContext());
+
+        try (SQLiteDatabase db = dbHelper.getReadableDatabase();
+             Cursor cursor = db.query("Productos", null, null, null, null, null, null)) {
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    // Extract product information from the cursor
+                    String nombre = cursor.getString(cursor.getColumnIndexOrThrow("Nombre"));
+                    byte[] imagenEnBytes = cursor.getBlob(cursor.getColumnIndexOrThrow("Imagen"));
+
+                    // Convert byte array to Bitmap
+                    Bitmap imagenBitmap = BitmapFactory.decodeByteArray(imagenEnBytes, 0, imagenEnBytes.length);
+
+                    // Create new ImageView and set the image using Glide
+                    ImageView imageViewProducto = new ImageView(requireContext());
+                    imageViewProducto.setLayoutParams(new LinearLayout.LayoutParams(
+                            100, // width in pixels
+                            100  // height in pixels
+                    ));
+                    Glide.with(this)
+                            .load(imagenBitmap)
+                            .override(100, 100) // Set your desired size
+                            .into(imageViewProducto);
+
+                    // Create new TextView for product name
+                    TextView textViewNombre = new TextView(requireContext());
+                    textViewNombre.setLayoutParams(new LinearLayout.LayoutParams(
+                            0,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            1
+                    ));
+                    textViewNombre.setText(nombre);
+                    textViewNombre.setTextSize(20);
+
+                    // Create a container for ImageView and TextView
+                    LinearLayout itemLayout = new LinearLayout(requireContext());
+                    itemLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                    itemLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    itemLayout.addView(imageViewProducto);
+                    itemLayout.addView(textViewNombre);
+
+                    // Add the container to the main LinearLayout
+                    linearLayoutContenido.addView(itemLayout);
+
+                } while (cursor.moveToNext());
+            } else {
+                // Handle case when no records are found
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle error getting records
+        }
+
+        return view;
     }
 }
