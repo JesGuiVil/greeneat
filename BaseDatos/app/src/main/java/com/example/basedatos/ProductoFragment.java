@@ -65,7 +65,7 @@ public class ProductoFragment extends Fragment {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         // Replace the current fragment with the new one
-        transaction.replace(R.id.fragment_container, fragment);
+        transaction.replace(R.id.frame_containeradmin, fragment);
 
         // Add the transaction to the back stack
         transaction.addToBackStack(null);

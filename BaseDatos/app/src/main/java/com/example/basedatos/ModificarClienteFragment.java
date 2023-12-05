@@ -4,39 +4,43 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-public class DatosPersonalesActivity extends AppCompatActivity {
+public class ModificarClienteFragment extends Fragment {
 
-    EditText nombreEditText, apellidosEditText, direccionEditText, telefonoEditText, correoEditText, contraseniaEditText, nifEditText;
+    EditText idEditText, nombreEditText, apellidosEditText, direccionEditText, telefonoEditText, correoEditText, contraseniaEditText, nifEditText;
     DbHelper dbHelper;
-    long idUsuario; // ID del usuario
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_datospersonales);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        dbHelper = new DbHelper(this);
-        idUsuario = getIntent().getLongExtra("idUsuario", -1); // Obtiene el ID del usuario del intent
+        View view = inflater.inflate(R.layout.fragment_modificar_cliente, container, false);
 
-        nombreEditText = findViewById(R.id.Nombremodificarusuario);
-        apellidosEditText = findViewById(R.id.Apellidosmodificarusuario);
-        direccionEditText = findViewById(R.id.Direccionmodificarusuario);
-        telefonoEditText = findViewById(R.id.Telefonomodificarusuario);
-        correoEditText = findViewById(R.id.Correomodificarusuario);
-        contraseniaEditText = findViewById(R.id.Contraseniamodificarusuario);
-        nifEditText = findViewById(R.id.NIFmodificarusuario);
+        dbHelper = new DbHelper(requireContext());
 
-        Button modificarButton = findViewById(R.id.Modificar);
+        idEditText = view.findViewById(R.id.Idcliente);
+        nombreEditText = view.findViewById(R.id.Nombrecliente);
+        apellidosEditText = view.findViewById(R.id.Apellidoscliente);
+        direccionEditText = view.findViewById(R.id.Direccioncliente);
+        telefonoEditText = view.findViewById(R.id.Telefonocliente);
+        correoEditText = view.findViewById(R.id.Correo_ecliente);
+        contraseniaEditText = view.findViewById(R.id.Contraseniacliente);
+        nifEditText = view.findViewById(R.id.Nifcliente);
+
+        Button modificarButton = view.findViewById(R.id.Enviar);
         modificarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String id = idEditText.getText().toString();
                 String nombre = nombreEditText.getText().toString();
                 String apellidos = apellidosEditText.getText().toString();
                 String direccion = direccionEditText.getText().toString();
@@ -45,11 +49,6 @@ public class DatosPersonalesActivity extends AppCompatActivity {
                 String contrasenia = contraseniaEditText.getText().toString();
                 String nif = nifEditText.getText().toString();
 
-                if (idUsuario == -1) {
-                    Toast.makeText(DatosPersonalesActivity.this, "Error: ID de usuario no válido", Toast.LENGTH_SHORT).show();
-                    finish();
-                    return;
-                }
 
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -77,21 +76,20 @@ public class DatosPersonalesActivity extends AppCompatActivity {
                 }
 
                 String selection = "id = ?";
-                String[] selectionArgs = { String.valueOf(idUsuario) };
+                String[] selectionArgs = {id};
 
                 int rowsUpdated = db.update("Usuarios", values, selection, selectionArgs);
 
                 if (rowsUpdated > 0) {
-                    Toast.makeText(DatosPersonalesActivity.this, "Datos personales modificados correctamente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Cliente modificado correctamente", Toast.LENGTH_SHORT).show();
                     // Puedes redirigir al usuario a otra actividad o realizar otras acciones aquí
                 } else {
-                    Toast.makeText(DatosPersonalesActivity.this, "Error al modificar los datos personales", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Error al modificar cliente", Toast.LENGTH_SHORT).show();
                 }
 
                 db.close();
             }
         });
-
-
+        return view;
     }
 }

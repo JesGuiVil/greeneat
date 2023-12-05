@@ -26,9 +26,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".AnadirActivity"
-            android:screenOrientation="fullSensor" />
+
         <activity
             android:name=".AdminActivity"
             android:windowSoftInputMode="adjustPan"
@@ -44,12 +42,6 @@
             android:name=".RegistroActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="fullSensor" />
-        <activity
-            android:name=".EliminarActivity"
-            android:screenOrientation="fullSensor"/>
-        <activity
-            android:name=".ModificarActivity"
-            android:screenOrientation="fullSensor"/>
         <activity
             android:name=".MostrarActivity"
             android:screenOrientation="fullSensor">

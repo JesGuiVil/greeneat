@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        File archivo = new File("/data/data/com.example.basedatos/databases/ejemplo.db");
+        File archivo = new File("/data/data/com.example.basedatos/databases/greeneat.db");
         if (archivo.exists()) {
             Toast.makeText(MainActivity.this, "CONECTADO A LA BASE DE DATOS", Toast.LENGTH_LONG).show();
         } else {
