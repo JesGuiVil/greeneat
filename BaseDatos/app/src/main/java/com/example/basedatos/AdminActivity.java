@@ -1,13 +1,11 @@
 package com.example.basedatos;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -96,24 +94,13 @@ public class AdminActivity extends AppCompatActivity {
             // Si el lateral navigation está visible, ocúltalo
             showHideLateralNavigationView(false);
         } else {
-            // Si el lateral navigation está oculto
-            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-
-            if (currentFragment == cuentaFragment) {
-                // Si la cuenta está seleccionada, vuelve a inicio
-                loadFragment(productoFragment);
-                navigation.setSelectedItemId(R.id.iniciomenu);
-                showHideLateralNavigationView(false);
-            } else if (currentFragment == productoFragment) {
-                // Si ya estás en inicio, cierra la aplicación
-                super.onBackPressed();
-            }
+            super.onBackPressed();
         }
     }
 
     public void loadFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
+        transaction.replace(R.id.frame_containeradmin, fragment);
         transaction.commit();
     }
     private void showHideLateralNavigationView(boolean show) {
