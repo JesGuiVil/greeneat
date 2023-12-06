@@ -57,7 +57,7 @@ public class AnadirClienteFragment extends Fragment {
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
                     values.put("Nombre", nombre);
-                    values.put("Apellidos", direccion);
+                    values.put("Apellidos", apellidos);
                     values.put("Direccion", direccion);
                     values.put("Telefono", Integer.parseInt(telefonoStr));
                     values.put("Correo_e", correo);
