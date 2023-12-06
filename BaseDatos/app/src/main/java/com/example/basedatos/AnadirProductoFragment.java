@@ -3,7 +3,6 @@ package com.example.basedatos;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class AnadirProductoFragment extends Fragment {
@@ -28,10 +26,6 @@ public class AnadirProductoFragment extends Fragment {
     private ImageView imagenProducto;
     private Uri imagenUri;
     private DbHelper dbHelper;
-
-    public AnadirProductoFragment() {
-        // Required empty public constructor
-    }
 
     public static AnadirProductoFragment newInstance() {
         return new AnadirProductoFragment();
@@ -103,21 +97,7 @@ public class AnadirProductoFragment extends Fragment {
                 values.put("Stock", stock);
                 values.put("Descripcion", descripcion);
                 values.put("ID_Proveedor", idProveedor.getText().toString());
-
-                if (imagenUri != null) {
-                    Bitmap imagenRedimensionada = redimensionarImagen(imagenUri, 400, 400);
-
-                    if (imagenRedimensionada != null) {
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        imagenRedimensionada.compress(Bitmap.CompressFormat.PNG, 0, baos);
-                        byte[] imagenEnBytes = baos.toByteArray();
-
-                        values.put("Imagen", imagenEnBytes);
-                    } else {
-                        Toast.makeText(requireContext(), "Error al redimensionar la imagen", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
+                values.put("Imagen", imagenUri.toString()); // Almacena la ruta de la imagen
 
                 long newRowId = db.insert("Productos", null, values);
 
@@ -142,25 +122,6 @@ public class AnadirProductoFragment extends Fragment {
                 e.printStackTrace();
                 Toast.makeText(requireContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    private Bitmap redimensionarImagen(Uri uri, int nuevoAncho, int nuevoAlto) {
-        try {
-            Bitmap bitmapOriginal = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), uri);
-
-            float proporcionAncho = ((float) nuevoAncho) / bitmapOriginal.getWidth();
-            float proporcionAlto = ((float) nuevoAlto) / bitmapOriginal.getHeight();
-            float proporcionMasPequena = Math.min(proporcionAncho, proporcionAlto);
-
-            int anchoRedimensionado = Math.round(proporcionMasPequena * bitmapOriginal.getWidth());
-            int altoRedimensionado = Math.round(proporcionMasPequena * bitmapOriginal.getHeight());
-
-            return Bitmap.createScaledBitmap(bitmapOriginal, anchoRedimensionado, altoRedimensionado, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(requireContext(), "Error al redimensionar la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            return null;
         }
     }
 

@@ -1,5 +1,7 @@
 package com.example.basedatos;
 
+import static com.example.basedatos.ResourceHelper.getResources;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,6 +27,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public DbHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        ResourceHelper.initialize(context);
     }
 
     @Override
@@ -95,144 +98,143 @@ public class DbHelper extends SQLiteOpenHelper {
                 "Descripcion TEXT, " +
                 "ID_Proveedor INTEGER, " +
                 "EnOferta INTEGER DEFAULT 0, " +
-                "Imagen BLOB, " +  // Nuevo campo para la ruta de la imagen
+                "Imagen TEXT, " +  // Nuevo campo para la ruta de la imagen
                 "FOREIGN KEY (ID_Proveedor) REFERENCES Proveedores(id) " +
                 ")";
 
         db.execSQL(CREATE_PRODUCTO_TABLE);
-//        int nuevoAncho = 400;
-//        int nuevoAlto = 400;
-//
-//
-//        ContentValues valuesProducto1 = new ContentValues();
-//        valuesProducto1.put("Nombre", "Tomates");
-//        valuesProducto1.put("Categoria", "FRUTAS Y HORTALIZAS");
-//        valuesProducto1.put("Precio", 5);
-//        valuesProducto1.put("IVA", 21);
-//        valuesProducto1.put("Peso", 2);
-//        valuesProducto1.put("Stock", 150);
-//        valuesProducto1.put("Descripcion", "Tomates de Los Palacios");
-//        valuesProducto1.put("ID_Proveedor", 1);
-//        valuesProducto1.put("EnOferta", 0);
-        // Obtener la URI de la imagen en la carpeta drawable
-//        Context context = null;
-//        Uri imagenUriTomates = getImageUri(context, "android.resource://" + context.getPackageName() + "/" + R.drawable.tomate);
-//// Redimensionar la imagen
-//        byte[] imagenRedimensionadaTomates = redimensionarImagen(imagenUriTomates, nuevoAncho, nuevoAlto, context);
-//
-//// Insertar la imagen redimensionada en la tabla Productos para los Tomates
-//        valuesProducto1.put("Imagen", imagenRedimensionadaTomates);
-//        db.insert("Productos", null, valuesProducto1);
 
 
-//        ContentValues valuesProducto2 = new ContentValues();
-//        valuesProducto2.put("Nombre", "Zanahorias");
-//        valuesProducto2.put("Categoria", "FRUTAS Y HORTALIZAS");
-//        valuesProducto2.put("Precio", 3);
-//        valuesProducto2.put("IVA", 21);
-//        valuesProducto2.put("Peso", 3);
-//        valuesProducto2.put("Stock", 200);
-//        valuesProducto2.put("Descripcion", "Zanahorias del huerto");
-//        valuesProducto2.put("ID_Proveedor", 1);
-//        valuesProducto2.put("EnOferta", 0);
+        ContentValues valuesProducto1 = new ContentValues();
+        valuesProducto1.put("Nombre", "Tomates");
+        valuesProducto1.put("Categoria", "FRUTAS Y HORTALIZAS");
+        valuesProducto1.put("Precio", 5);
+        valuesProducto1.put("IVA", 21);
+        valuesProducto1.put("Peso", 2);
+        valuesProducto1.put("Stock", 150);
+        valuesProducto1.put("Descripcion", "Tomates de Los Palacios");
+        valuesProducto1.put("ID_Proveedor", 1);
+        valuesProducto1.put("EnOferta", 0);
+        valuesProducto1.put("Imagen", "file:///android_asset/tomate.png");
+        long idProducto1 = db.insert("Productos", null, valuesProducto1);
 
-//        Uri imagenUriZanahorias = getImageUri(context, "android.resource://" + context.getPackageName() + "/" + R.drawable.zanahoria);
-//        byte[] imagenRedimensionadaZanahorias = redimensionarImagen(imagenUriZanahorias, nuevoAncho, nuevoAlto, context);
-//        valuesProducto2.put("Imagen", imagenRedimensionadaZanahorias);
-//        db.insert("Productos", null, valuesProducto2);
 
-//        ContentValues valuesProducto3 = new ContentValues();
-//        valuesProducto3.put("Nombre", "Trigo");
-//        valuesProducto3.put("Categoria", "CEREALES");
-//        valuesProducto3.put("Precio", 6);
-//        valuesProducto3.put("IVA", 21);
-//        valuesProducto3.put("Peso", 5);
-//        valuesProducto3.put("Stock", 800);
-//        valuesProducto3.put("Descripcion", "Trigo en bloques");
-//        valuesProducto3.put("ID_Proveedor", 1);
-//        valuesProducto3.put("EnOferta", 0);
+        ContentValues valuesProducto2 = new ContentValues();
+        valuesProducto2.put("Nombre", "Zanahorias");
+        valuesProducto2.put("Categoria", "FRUTAS Y HORTALIZAS");
+        valuesProducto2.put("Precio", 3);
+        valuesProducto2.put("IVA", 21);
+        valuesProducto2.put("Peso", 3);
+        valuesProducto2.put("Stock", 200);
+        valuesProducto2.put("Descripcion", "Zanahorias frescas");
+        valuesProducto2.put("ID_Proveedor", 1);
+        valuesProducto2.put("EnOferta", 0);
+        valuesProducto2.put("Imagen","file:///android_asset/zanahoria.png");
+        long idProducto2 = db.insert("Productos", null, valuesProducto2);
 
-//        Uri imagenUriTrigo = getImageUri(context, "android.resource://" + context.getPackageName() + "/" + R.drawable.trigo);
-//        byte[] imagenRedimensionadaTrigo = redimensionarImagen(imagenUriTrigo, nuevoAncho, nuevoAlto, context);
-//        valuesProducto3.put("Imagen", imagenRedimensionadaTrigo);
-//        db.insert("Productos", null, valuesProducto3);
+        ContentValues valuesProducto3 = new ContentValues();
+        valuesProducto3.put("Nombre", "Trigo");
+        valuesProducto3.put("Categoria", "CEREALES");
+        valuesProducto3.put("Precio", 6);
+        valuesProducto3.put("IVA", 21);
+        valuesProducto3.put("Peso", 5);
+        valuesProducto3.put("Stock", 800);
+        valuesProducto3.put("Descripcion", "Semillas a granel");
+        valuesProducto3.put("ID_Proveedor", 1);
+        valuesProducto3.put("EnOferta", 0);
+        valuesProducto3.put("Imagen", "file:///android_asset/trigo.png");
+        long idProducto3 = db.insert("Productos", null, valuesProducto3);
 
-//        ContentValues valuesProducto4 = new ContentValues();
-//        valuesProducto4.put("Nombre", "Cebada");
-//        valuesProducto4.put("Categoria", "CEREALES");
-//        valuesProducto4.put("Precio", 2);
-//        valuesProducto4.put("IVA", 21);
-//        valuesProducto4.put("Peso", 2);
-//        valuesProducto4.put("Stock", 500);
-//        valuesProducto4.put("Descripcion", "Kilos de cebada");
-//        valuesProducto4.put("ID_Proveedor", 1);
-//        valuesProducto4.put("EnOferta", 0);
-//
-//        ContentValues valuesProducto5 = new ContentValues();
-//        valuesProducto5.put("Nombre", "Leche de vaca");
-//        valuesProducto5.put("Categoria", "LACTEOS");
-//        valuesProducto5.put("Precio", 2);
-//        valuesProducto5.put("IVA", 10);
-//        valuesProducto5.put("Peso", 1);
-//        valuesProducto5.put("Stock", 200);
-//        valuesProducto5.put("Descripcion", "Leche fresca de vaca");
-//        valuesProducto5.put("ID_Proveedor", 1);
-//        valuesProducto5.put("EnOferta", 0);
-//
-//        ContentValues valuesProducto6 = new ContentValues();
-//        valuesProducto6.put("Nombre", "Queso de cabra");
-//        valuesProducto6.put("Categoria", "LACTEOS");
-//        valuesProducto6.put("Precio", 4);
-//        valuesProducto6.put("IVA", 21);
-//        valuesProducto6.put("Peso", 1);
-//        valuesProducto6.put("Stock", 100);
-//        valuesProducto6.put("Descripcion", "Queso suave y cremoso");
-//        valuesProducto6.put("ID_Proveedor", 1);
-//        valuesProducto6.put("EnOferta", 1);
-//
-//        ContentValues valuesProducto7 = new ContentValues();
-//        valuesProducto7.put("Nombre", "Carne de Ternera");
-//        valuesProducto7.put("Categoria", "CARNES Y PESCADOS");
-//        valuesProducto7.put("Precio", 12);
-//        valuesProducto7.put("IVA", 21);
-//        valuesProducto7.put("Peso", 1);
-//        valuesProducto7.put("Stock", 50);
-//        valuesProducto7.put("Descripcion", "Filete tierno y jugoso");
-//        valuesProducto7.put("ID_Proveedor", 1);
-//        valuesProducto7.put("EnOferta", 0);
-//
-//        ContentValues valuesProducto8 = new ContentValues();
-//        valuesProducto8.put("Nombre", "Salmón");
-//        valuesProducto8.put("Categoria", "CARNES Y PESCADOS");
-//        valuesProducto8.put("Precio", 8);
-//        valuesProducto8.put("IVA", 21);
-//        valuesProducto8.put("Peso", 1);
-//        valuesProducto8.put("Stock", 80);
-//        valuesProducto8.put("Descripcion", "Salmón del Atlántico");
-//        valuesProducto8.put("ID_Proveedor", 1);
-//        valuesProducto8.put("EnOferta", 0);
-//
-//        ContentValues valuesProducto9 = new ContentValues();
-//        valuesProducto9.put("Nombre", "Zumo de naranja");
-//        valuesProducto9.put("Categoria", "BEBIDAS");
-//        valuesProducto9.put("Precio", 1);
-//        valuesProducto9.put("IVA", 10);
-//        valuesProducto9.put("Peso", 1);
-//        valuesProducto9.put("Stock", 300);
-//        valuesProducto9.put("Descripcion", "Zumo de naranja recién exprimido natural");
-//        valuesProducto9.put("ID_Proveedor", 1);
-//        valuesProducto9.put("EnOferta", 1);
-//
-//        ContentValues valuesProducto10 = new ContentValues();
-//        valuesProducto10.put("Nombre", "Agua de coco");
-//        valuesProducto10.put("Categoria", "BEBIDAS");
-//        valuesProducto10.put("Precio", 1.5);
-//        valuesProducto10.put("IVA", 21);
-//        valuesProducto10.put("Peso", 1);
-//        valuesProducto10.put("Stock", 150);
-//        valuesProducto10.put("Descripcion", "Agua de coco orgánica");
-//        valuesProducto10.put("ID_Proveedor", 1);
-//        valuesProducto10.put("EnOferta", 0);
+        ContentValues valuesProducto4 = new ContentValues();
+        valuesProducto4.put("Nombre", "Cebada");
+        valuesProducto4.put("Categoria", "CEREALES");
+        valuesProducto4.put("Precio", 2);
+        valuesProducto4.put("IVA", 21);
+        valuesProducto4.put("Peso", 2);
+        valuesProducto4.put("Stock", 500);
+        valuesProducto4.put("Descripcion", "Semillas a granel");
+        valuesProducto4.put("ID_Proveedor", 1);
+        valuesProducto4.put("EnOferta", 0);
+        valuesProducto4.put("Imagen", "file:///android_asset/cebada.png");
+        long idProducto4 = db.insert("Productos", null, valuesProducto4);
+
+        ContentValues valuesProducto5 = new ContentValues();
+        valuesProducto5.put("Nombre", "Leche de vaca");
+        valuesProducto5.put("Categoria", "LACTEOS");
+        valuesProducto5.put("Precio", 2);
+        valuesProducto5.put("IVA", 10);
+        valuesProducto5.put("Peso", 1);
+        valuesProducto5.put("Stock", 200);
+        valuesProducto5.put("Descripcion", "Leche fresca recien ordeñada");
+        valuesProducto5.put("ID_Proveedor", 1);
+        valuesProducto5.put("EnOferta", 0);
+        valuesProducto5.put("Imagen", "file:///android_asset/lechedevaca.png");
+        long idProducto5 = db.insert("Productos", null, valuesProducto5);
+
+        ContentValues valuesProducto6 = new ContentValues();
+        valuesProducto6.put("Nombre", "Queso de cabra");
+        valuesProducto6.put("Categoria", "LACTEOS");
+        valuesProducto6.put("Precio", 4);
+        valuesProducto6.put("IVA", 21);
+        valuesProducto6.put("Peso", 1);
+        valuesProducto6.put("Stock", 100);
+        valuesProducto6.put("Descripcion", "Queso suave y cremoso");
+        valuesProducto6.put("ID_Proveedor", 1);
+        valuesProducto6.put("EnOferta", 1);
+        valuesProducto6.put("Imagen", "file:///android_asset/quesoparmesano.png");
+        long idProducto6 = db.insert("Productos", null, valuesProducto6);
+
+        ContentValues valuesProducto7 = new ContentValues();
+        valuesProducto7.put("Nombre", "Carne de Ternera");
+        valuesProducto7.put("Categoria", "CARNES Y PESCADOS");
+        valuesProducto7.put("Precio", 12);
+        valuesProducto7.put("IVA", 21);
+        valuesProducto7.put("Peso", 1);
+        valuesProducto7.put("Stock", 50);
+        valuesProducto7.put("Descripcion", "Filete tierno y jugoso");
+        valuesProducto7.put("ID_Proveedor", 1);
+        valuesProducto7.put("EnOferta", 0);
+        valuesProducto7.put("Imagen", "file:///android_asset/carnedevacuno.png");
+        long idProducto7 = db.insert("Productos", null, valuesProducto7);
+
+        ContentValues valuesProducto8 = new ContentValues();
+        valuesProducto8.put("Nombre", "Salmón");
+        valuesProducto8.put("Categoria", "CARNES Y PESCADOS");
+        valuesProducto8.put("Precio", 8);
+        valuesProducto8.put("IVA", 21);
+        valuesProducto8.put("Peso", 1);
+        valuesProducto8.put("Stock", 80);
+        valuesProducto8.put("Descripcion", "Salmón del Atlántico");
+        valuesProducto8.put("ID_Proveedor", 1);
+        valuesProducto8.put("EnOferta", 0);
+        valuesProducto8.put("Imagen", "file:///android_asset/salmon.png");
+        long idProducto8 = db.insert("Productos", null, valuesProducto8);
+
+        ContentValues valuesProducto9 = new ContentValues();
+        valuesProducto9.put("Nombre", "Zumo de naranja");
+        valuesProducto9.put("Categoria", "BEBIDAS");
+        valuesProducto9.put("Precio", 1);
+        valuesProducto9.put("IVA", 10);
+        valuesProducto9.put("Peso", 1);
+        valuesProducto9.put("Stock", 300);
+        valuesProducto9.put("Descripcion", "Zumo de naranja recién exprimido natural");
+        valuesProducto9.put("ID_Proveedor", 1);
+        valuesProducto9.put("EnOferta", 1);
+        valuesProducto9.put("Imagen", "file:///android_asset/zumodenaranja.png");
+        long idProducto9 = db.insert("Productos", null, valuesProducto9);
+
+        ContentValues valuesProducto10 = new ContentValues();
+        valuesProducto10.put("Nombre", "Agua de coco");
+        valuesProducto10.put("Categoria", "BEBIDAS");
+        valuesProducto10.put("Precio", 1.5);
+        valuesProducto10.put("IVA", 21);
+        valuesProducto10.put("Peso", 1);
+        valuesProducto10.put("Stock", 150);
+        valuesProducto10.put("Descripcion", "natural, sin conservantes");
+        valuesProducto10.put("ID_Proveedor", 1);
+        valuesProducto10.put("EnOferta", 0);
+        valuesProducto10.put("Imagen", "file:///android_asset/aguadecoco.png");
+        long idProducto10 = db.insert("Productos", null, valuesProducto10);
 
 
         // Tabla Pedidos
@@ -286,27 +288,3 @@ public class DbHelper extends SQLiteOpenHelper {
         return dateFormat.format(fechaActual);
     }
 }
-//    private Uri getImageUri(Context context, String imagePath) {
-//        return Uri.parse(imagePath);
-//    }
-//
-//    private byte[] redimensionarImagen(Uri imagenUri, int nuevoAncho, int nuevoAlto, Context context) {
-//        try {
-//            InputStream is = context.getContentResolver().openInputStream(imagenUri);
-//            Bitmap imagenOriginal = BitmapFactory.decodeStream(is);
-//            is.close();
-//
-//            Bitmap imagenRedimensionada = Bitmap.createScaledBitmap(imagenOriginal, nuevoAncho, nuevoAlto, true);
-//
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            imagenRedimensionada.compress(Bitmap.CompressFormat.PNG, 0, baos);
-//            return baos.toByteArray();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//            return null;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-//}

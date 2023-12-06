@@ -1,5 +1,7 @@
 package com.example.basedatos;
 
+import android.graphics.Bitmap;
+
 public class Producto {
     private long id;
     private String nombre;
@@ -10,7 +12,7 @@ public class Producto {
     private int stock;
     private String descripcion;
     private long idProveedor;
-    private String imagen;
+    private String imagen; // Cambiado de String a Bitmap para representar la imagen
 
     // Constructor
     public Producto(long id, String nombre, String seccion, double precio, double iva, double peso,

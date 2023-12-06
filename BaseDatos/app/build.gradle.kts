@@ -35,8 +35,6 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
-    implementation ("com.github.bumptech.glide:glide:4.12.0") // Reemplaza con la versión actual de Glide
-
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0") // Reemplaza con la versión actual de Glide
 
     testImplementation("junit:junit:4.13.2")

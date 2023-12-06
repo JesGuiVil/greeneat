@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".MostrarProductoFragment">
-
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="wrap_content"
@@ -14,39 +12,14 @@
         android:layout_centerInParent="true"
         android:alpha="0.5"
         android:src="@drawable/logo" />
-    <ScrollView
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerproductos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            <!-- Add your product cards dynamically using Java code -->
 
-            <!-- ImageView for Image -->
-            <ImageView
-                android:id="@+id/imageViewProducto"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter" />
 
-            <!-- TextView for Name -->
-            <TextView
-                android:id="@+id/textViewNombre"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=""
-                android:textSize="20sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp" />
-
-            <!-- Other content elements -->
-
-        </LinearLayout>
-    </ScrollView>
 </RelativeLayout>
+
