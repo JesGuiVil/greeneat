@@ -1,13 +1,10 @@
 package com.example.basedatos;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,7 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 public class InvitadoActivity extends AppCompatActivity {
     InicioFragment inicioFragment = new InicioFragment();
     CarritoFragment carritoFragment = new CarritoFragment();
-    CuentaFragment cuentaFragment = new CuentaFragment();
+    DatosPersonalesFragment datosPersonalesFragment = new DatosPersonalesFragment();
     private NavigationView lateralNavigationView;
     private NavigationBarView navigation;
 
@@ -60,7 +57,7 @@ public class InvitadoActivity extends AppCompatActivity {
                 showHideLateralNavigationView(false);
                 return true;
             case "Cuenta":
-                loadFragment(cuentaFragment);
+                loadFragment(datosPersonalesFragment);
                 showHideLateralNavigationView(true);
                 return true;
         }
@@ -74,7 +71,7 @@ public class InvitadoActivity extends AppCompatActivity {
             // Si el lateral navigation está oculto
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
 
-            if (currentFragment == cuentaFragment) {
+            if (currentFragment == datosPersonalesFragment) {
                 // Si la cuenta está seleccionada, vuelve a inicio
                 loadFragment(inicioFragment);
                 navigation.setSelectedItemId(R.id.iniciomenu);

@@ -43,7 +43,7 @@ public class BorrarClienteFragment extends Fragment {
                     String[] selectionArgs = {id};
 
                     // Realizar la eliminación de los datos
-                    int rowsDeleted = db.delete("Cliente", selection, selectionArgs);
+                    int rowsDeleted = db.delete("Usuarios", selection, selectionArgs);
 
                     // Verificar si la eliminación fue exitosa
                     if (rowsDeleted > 0) {

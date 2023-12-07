@@ -18,7 +18,8 @@ public class AdminActivity extends AppCompatActivity {
     ProveedoresFragment proveedoresFragment = new ProveedoresFragment();
     ClienteFragment clienteFragment = new ClienteFragment();
     PedidosFragment pedidosFragment = new PedidosFragment();
-    CuentaFragment cuentaFragment = new CuentaFragment();
+    DatosPersonalesFragment datosPersonalesFragment = new DatosPersonalesFragment();
+    CrearAdminFragment crearAdminFragment = new CrearAdminFragment();
     private NavigationView lateralNavigationView;
     private NavigationBarView navigation;
 
@@ -59,6 +60,14 @@ public class AdminActivity extends AppCompatActivity {
                 // Manejar el clic en "Cerrar sesión"
                 SessionManager.cerrarSesion(this);
                 return true;
+            case "Modificar datos":
+                loadFragment(datosPersonalesFragment);
+                showHideLateralNavigationView(false);
+                return true;
+            case "Crear admin":
+                loadFragment(crearAdminFragment);
+                showHideLateralNavigationView(false);
+                return true;
         }
         return false;
     }
@@ -82,7 +91,6 @@ public class AdminActivity extends AppCompatActivity {
                 showHideLateralNavigationView(false);
                 return true;
             case "Cuenta":
-                loadFragment(cuentaFragment);
                 showHideLateralNavigationView(true);
                 return true;
         }
@@ -91,10 +99,16 @@ public class AdminActivity extends AppCompatActivity {
 
     public void onBackPressed() {
         if (lateralNavigationView.getVisibility() == View.VISIBLE) {
-            // Si el lateral navigation está visible, ocúltalo
             showHideLateralNavigationView(false);
         } else {
-            super.onBackPressed();
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_containeradmin);
+
+            if (currentFragment == crearAdminFragment || currentFragment == datosPersonalesFragment) {
+                loadFragment(productoFragment);
+                navigation.setSelectedItemId(R.id.productosmenu);
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

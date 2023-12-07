@@ -1,7 +1,6 @@
 package com.example.basedatos;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import java.security.MessageDigest;
@@ -20,20 +18,24 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-public class ModificarClienteFragment extends Fragment {
+public class CrearAdminFragment extends Fragment {
 
-    EditText idEditText, nombreEditText, apellidosEditText, direccionEditText, telefonoEditText, correoEditText, contraseniaEditText, nifEditText;
+    EditText nombreEditText, apellidosEditText, direccionEditText, telefonoEditText, correoEditText, contraseniaEditText, nifEditText;
     DbHelper dbHelper;
 
+    public CrearAdminFragment() {
+        // Required empty public constructor
+    }
+    public static CrearAdminFragment newInstance() {
+        return new CrearAdminFragment();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_modificar_cliente, container, false);
+        View view = inflater.inflate(R.layout.fragment_crear_admin, container, false);
 
         dbHelper = new DbHelper(requireContext());
 
-        idEditText = view.findViewById(R.id.Idcliente);
         nombreEditText = view.findViewById(R.id.Nombrecliente);
         apellidosEditText = view.findViewById(R.id.Apellidoscliente);
         direccionEditText = view.findViewById(R.id.Direccioncliente);
@@ -42,17 +44,17 @@ public class ModificarClienteFragment extends Fragment {
         contraseniaEditText = view.findViewById(R.id.Contraseniacliente);
         nifEditText = view.findViewById(R.id.Nifcliente);
 
-        Button modificarButton = view.findViewById(R.id.Enviar);
-        modificarButton.setOnClickListener(new View.OnClickListener() {
+        Button enviarButton = view.findViewById(R.id.Enviar);
+        enviarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = idEditText.getText().toString();
                 String nombre = nombreEditText.getText().toString();
                 String apellidos = apellidosEditText.getText().toString();
                 String direccion = direccionEditText.getText().toString();
-                String telefono = telefonoEditText.getText().toString();
+                String telefonoStr = telefonoEditText.getText().toString();
                 String correo = correoEditText.getText().toString();
                 String contrasenia = contraseniaEditText.getText().toString();
+                String fechaAlta = RegistroActivity.obtenerFechaActual();
                 String nif = nifEditText.getText().toString();
                 String contraseniaEncriptada = "";
 
@@ -63,45 +65,39 @@ public class ModificarClienteFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-                ContentValues values = new ContentValues();
-                if (!nombre.isEmpty()) {
-                    values.put("Nombre", nombre);
-                }
-                if (!apellidos.isEmpty()) {
-                    values.put("Apellidos", apellidos);
-                }
-                if (!direccion.isEmpty()) {
-                    values.put("Direccion", direccion);
-                }
-                if (!telefono.isEmpty()) {
-                    values.put("Telefono", telefono);
-                }
-                if (!correo.isEmpty()) {
-                    values.put("Correo_e", correo);
-                }
-                if (!contrasenia.isEmpty()) {
-                    values.put("Contrasenia", contraseniaEncriptada);
-                }
-                if (!nif.isEmpty()) {
-                    values.put("NIF", nif);
-                }
-
-                String selection = "id = ?";
-                String[] selectionArgs = {id};
-
-                int rowsUpdated = db.update("Usuarios", values, selection, selectionArgs);
-
-                if (rowsUpdated > 0) {
-                    Toast.makeText(getContext(), "Cliente modificado correctamente", Toast.LENGTH_SHORT).show();
-                    // Puedes redirigir al usuario a otra actividad o realizar otras acciones aquí
+                if (nombre.isEmpty() || apellidos.isEmpty()|| direccion.isEmpty() || telefonoStr.isEmpty() || correo.isEmpty() || contrasenia.isEmpty()|| fechaAlta.isEmpty() || nif.isEmpty()) {
+                    Toast.makeText(requireContext(), "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Error al modificar cliente", Toast.LENGTH_SHORT).show();
-                }
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    ContentValues values = new ContentValues();
+                    values.put("Nombre", nombre);
+                    values.put("Apellidos", direccion);
+                    values.put("Direccion", direccion);
+                    values.put("Telefono", Integer.parseInt(telefonoStr));
+                    values.put("Correo_e", correo);
+                    values.put("Contrasenia", contraseniaEncriptada);
+                    values.put("Fecha_alta", fechaAlta);
+                    values.put("NIF", nif);
+                    values.put("Admin", 1);
 
-                db.close();
+                    long newRowId = db.insert("Usuarios", null, values);
+
+                    if (newRowId != -1) {
+                        Toast.makeText(requireContext(), "Admin agregado correctamente", Toast.LENGTH_SHORT).show();
+                        // Limpia los campos
+                        nombreEditText.setText("");
+                        apellidosEditText.setText("");
+                        direccionEditText.setText("");
+                        telefonoEditText.setText("");
+                        correoEditText.setText("");
+                        contraseniaEditText.setText("");
+                        nifEditText.setText("");
+                    } else {
+                        Toast.makeText(requireContext(), "Error al agregar el admin", Toast.LENGTH_SHORT).show();
+                    }
+
+                    db.close();
+                }
             }
         });
         return view;

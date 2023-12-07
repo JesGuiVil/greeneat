@@ -208,8 +208,9 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+
     @SuppressLint("Range")
-    private String obtenerNombreUsuario(long idUsuario) {
+    public String obtenerNombreUsuario(long idUsuario) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String nombreUsuario = "";
 
@@ -226,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         return nombreUsuario;
     }
     @SuppressLint("Range")
-    private String obtenerCorreoUsuario(long idUsuario) {
+    public String obtenerCorreoUsuario(long idUsuario) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String correoUsuario = "";
 

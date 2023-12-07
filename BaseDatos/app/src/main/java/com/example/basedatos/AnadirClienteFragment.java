@@ -12,6 +12,12 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.security.MessageDigest;
+import java.util.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 public class AnadirClienteFragment extends Fragment {
 
     EditText nombreEditText, apellidosEditText, direccionEditText, telefonoEditText, correoEditText, contraseniaEditText, nifEditText;
@@ -50,6 +56,14 @@ public class AnadirClienteFragment extends Fragment {
                 String contrasenia = contraseniaEditText.getText().toString();
                 String fechaAlta = RegistroActivity.obtenerFechaActual();
                 String nif = nifEditText.getText().toString();
+                String contraseniaEncriptada = "";
+
+                try {
+                    // Encripta la contraseña antes de almacenarla en la base de datos
+                    contraseniaEncriptada = encriptar(contrasenia);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 if (nombre.isEmpty() || apellidos.isEmpty()|| direccion.isEmpty() || telefonoStr.isEmpty() || correo.isEmpty() || contrasenia.isEmpty()|| fechaAlta.isEmpty() || nif.isEmpty()) {
                     Toast.makeText(requireContext(), "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
@@ -61,9 +75,11 @@ public class AnadirClienteFragment extends Fragment {
                     values.put("Direccion", direccion);
                     values.put("Telefono", Integer.parseInt(telefonoStr));
                     values.put("Correo_e", correo);
-                    values.put("Contrasenia", contrasenia);
+                    values.put("Contrasenia", contraseniaEncriptada);
                     values.put("Fecha_alta", fechaAlta);
                     values.put("NIF", nif);
+                    values.put("Admin", 0);
+
 
                     long newRowId = db.insert("Usuarios", null, values);
 
@@ -86,5 +102,20 @@ public class AnadirClienteFragment extends Fragment {
             }
         });
         return view;
+    }
+    protected String encriptar(String contrasenia) throws Exception {
+        // Utiliza una clave secreta segura
+        String claveSecreta = "tu_clave_secreta";
+        SecretKeySpec secretKey = generateKey(claveSecreta);
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+        byte[] datosEncriptadosBytes = cipher.doFinal(contrasenia.getBytes());
+        return Base64.getEncoder().encodeToString(datosEncriptadosBytes);
+    }
+    private static SecretKeySpec generateKey(String password) throws Exception {
+        MessageDigest sha = MessageDigest.getInstance("SHA-256");
+        byte[] key = password.getBytes("UTF-8");
+        key = sha.digest(key);
+        return new SecretKeySpec(key, "AES");
     }
 }
