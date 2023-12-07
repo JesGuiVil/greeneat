@@ -57,7 +57,6 @@ public class InvitadoActivity extends AppCompatActivity {
                 showHideLateralNavigationView(false);
                 return true;
             case "Cuenta":
-                loadFragment(datosPersonalesFragment);
                 showHideLateralNavigationView(true);
                 return true;
         }
