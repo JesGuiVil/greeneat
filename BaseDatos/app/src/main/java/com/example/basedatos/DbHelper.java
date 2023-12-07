@@ -115,7 +115,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto1.put("Descripcion", "Tomates de Los Palacios");
         valuesProducto1.put("ID_Proveedor", 1);
         valuesProducto1.put("EnOferta", 0);
-        valuesProducto1.put("Imagen", "file:///android_asset/tomate.png");
+        valuesProducto1.put("Imagen", "file:///android_asset/tomates.png");
         long idProducto1 = db.insert("Productos", null, valuesProducto1);
 
 
@@ -129,7 +129,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto2.put("Descripcion", "Zanahorias frescas");
         valuesProducto2.put("ID_Proveedor", 1);
         valuesProducto2.put("EnOferta", 0);
-        valuesProducto2.put("Imagen","file:///android_asset/zanahoria.png");
+        valuesProducto2.put("Imagen","file:///android_asset/zanahorias.png");
         long idProducto2 = db.insert("Productos", null, valuesProducto2);
 
         ContentValues valuesProducto3 = new ContentValues();
@@ -142,7 +142,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto3.put("Descripcion", "Semillas a granel");
         valuesProducto3.put("ID_Proveedor", 1);
         valuesProducto3.put("EnOferta", 0);
-        valuesProducto3.put("Imagen", "file:///android_asset/trigo.png");
+        valuesProducto3.put("Imagen", "file:///android_asset/trigos.png");
         long idProducto3 = db.insert("Productos", null, valuesProducto3);
 
         ContentValues valuesProducto4 = new ContentValues();
@@ -155,7 +155,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto4.put("Descripcion", "Semillas a granel");
         valuesProducto4.put("ID_Proveedor", 1);
         valuesProducto4.put("EnOferta", 0);
-        valuesProducto4.put("Imagen", "file:///android_asset/cebada.png");
+        valuesProducto4.put("Imagen", "file:///android_asset/cebadas.png");
         long idProducto4 = db.insert("Productos", null, valuesProducto4);
 
         ContentValues valuesProducto5 = new ContentValues();
@@ -168,7 +168,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto5.put("Descripcion", "Leche fresca recien ordeñada");
         valuesProducto5.put("ID_Proveedor", 1);
         valuesProducto5.put("EnOferta", 0);
-        valuesProducto5.put("Imagen", "file:///android_asset/lechedevaca.png");
+        valuesProducto5.put("Imagen", "file:///android_asset/lechedevacas.png");
         long idProducto5 = db.insert("Productos", null, valuesProducto5);
 
         ContentValues valuesProducto6 = new ContentValues();
@@ -181,7 +181,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto6.put("Descripcion", "Queso suave y cremoso");
         valuesProducto6.put("ID_Proveedor", 1);
         valuesProducto6.put("EnOferta", 1);
-        valuesProducto6.put("Imagen", "file:///android_asset/quesoparmesano.png");
+        valuesProducto6.put("Imagen", "file:///android_asset/quesoparmesanos.png");
         long idProducto6 = db.insert("Productos", null, valuesProducto6);
 
         ContentValues valuesProducto7 = new ContentValues();
@@ -194,7 +194,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto7.put("Descripcion", "Filete tierno y jugoso");
         valuesProducto7.put("ID_Proveedor", 1);
         valuesProducto7.put("EnOferta", 0);
-        valuesProducto7.put("Imagen", "file:///android_asset/carnedevacuno.png");
+        valuesProducto7.put("Imagen", "file:///android_asset/carnedevacunos.png");
         long idProducto7 = db.insert("Productos", null, valuesProducto7);
 
         ContentValues valuesProducto8 = new ContentValues();
@@ -207,7 +207,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto8.put("Descripcion", "Salmón del Atlántico");
         valuesProducto8.put("ID_Proveedor", 1);
         valuesProducto8.put("EnOferta", 0);
-        valuesProducto8.put("Imagen", "file:///android_asset/salmon.png");
+        valuesProducto8.put("Imagen", "file:///android_asset/salmons.png");
         long idProducto8 = db.insert("Productos", null, valuesProducto8);
 
         ContentValues valuesProducto9 = new ContentValues();
@@ -220,7 +220,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto9.put("Descripcion", "Zumo de naranja recién exprimido natural");
         valuesProducto9.put("ID_Proveedor", 1);
         valuesProducto9.put("EnOferta", 1);
-        valuesProducto9.put("Imagen", "file:///android_asset/zumodenaranja.png");
+        valuesProducto9.put("Imagen", "file:///android_asset/zumodenaranjas.png");
         long idProducto9 = db.insert("Productos", null, valuesProducto9);
 
         ContentValues valuesProducto10 = new ContentValues();
@@ -233,7 +233,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto10.put("Descripcion", "natural, sin conservantes");
         valuesProducto10.put("ID_Proveedor", 1);
         valuesProducto10.put("EnOferta", 0);
-        valuesProducto10.put("Imagen", "file:///android_asset/aguadecoco.png");
+        valuesProducto10.put("Imagen", "file:///android_asset/aguadecocos.png");
         long idProducto10 = db.insert("Productos", null, valuesProducto10);
 
 

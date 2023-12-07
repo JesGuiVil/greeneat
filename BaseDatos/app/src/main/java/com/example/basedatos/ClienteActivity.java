@@ -16,7 +16,9 @@ import com.google.android.material.navigation.NavigationView;
 public class ClienteActivity extends AppCompatActivity {
     InicioFragment inicioFragment = new InicioFragment();
     CarritoFragment carritoFragment = new CarritoFragment();
-    CuentaFragment cuentaFragment = new CuentaFragment();
+    DatosPersonalesFragment datosPersonalesFragment = new DatosPersonalesFragment();
+    CategoriasFragment categoriasFragment = new CategoriasFragment();
+    MostrarProductoFragment mostrarProductoFragment = new MostrarProductoFragment();
     private NavigationView lateralNavigationView;
     private NavigationBarView navigation;
 
@@ -29,7 +31,7 @@ public class ClienteActivity extends AppCompatActivity {
         navigation = findViewById(R.id.bottom_navigation);
 
         navigation.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
-        loadFragment(inicioFragment);
+        loadFragment(categoriasFragment);
         lateralNavigationView = findViewById(R.id.lateral_navigation);
         lateralNavigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         showHideLateralNavigationView(false);
@@ -57,6 +59,10 @@ public class ClienteActivity extends AppCompatActivity {
                 // Manejar el clic en "Cerrar sesión"
                 SessionManager.cerrarSesion(this);
                 return true;
+            case "Modificar datos":
+                loadFragment(datosPersonalesFragment);
+                showHideLateralNavigationView(false);
+                return true;
         }
         return false;
     }
@@ -64,7 +70,7 @@ public class ClienteActivity extends AppCompatActivity {
     private final  NavigationBarView.OnItemSelectedListener mOnNavigationItemSelectedListener = item -> {
         switch (item.getTitle().toString()) {
             case "Inicio":
-                loadFragment(inicioFragment);
+                loadFragment(categoriasFragment);
                 showHideLateralNavigationView(false);
                 return true;
             case "Carrito":
@@ -72,7 +78,6 @@ public class ClienteActivity extends AppCompatActivity {
                 showHideLateralNavigationView(false);
                 return true;
             case "Cuenta":
-                loadFragment(cuentaFragment);
                 showHideLateralNavigationView(true);
                 return true;
         }
@@ -86,17 +91,20 @@ public class ClienteActivity extends AppCompatActivity {
             // Si el lateral navigation está oculto
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
 
-            if (currentFragment == cuentaFragment) {
+            if (currentFragment == datosPersonalesFragment) {
                 // Si la cuenta está seleccionada, vuelve a inicio
-                loadFragment(inicioFragment);
+                loadFragment(categoriasFragment);
                 navigation.setSelectedItemId(R.id.iniciomenu);
                 showHideLateralNavigationView(false);
-            } else if (currentFragment == inicioFragment) {
-                // Si ya estás en inicio, cierra la aplicación
+            } else if (currentFragment == mostrarProductoFragment || currentFragment instanceof MostrarProductoFragment) {
+                // Utiliza instanceof para manejar posibles nulls y asegurarte de que sea MostrarProductoFragment
+                loadFragment(categoriasFragment);
+            } else if (currentFragment == categoriasFragment) {
                 super.onBackPressed();
             }
         }
     }
+
     public void loadFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);

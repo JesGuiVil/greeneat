@@ -8,6 +8,11 @@
         android:icon="@drawable/editar"
         android:title="Modificar datos"
         android:checkable="true"/>
+    <item
+        android:id="@+id/crearadmin"
+        android:icon="@drawable/admin"
+        android:title="Crear admin"
+        android:checkable="true"/>
 
     <item
         android:id="@+id/logout"

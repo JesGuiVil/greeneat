@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:cardCornerRadius="20dp"
+                app:contentPaddingBottom="2dp"
                 app:cardElevation="0dp">
 
                 <SearchView

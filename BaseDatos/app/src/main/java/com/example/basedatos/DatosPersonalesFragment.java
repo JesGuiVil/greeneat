@@ -1,6 +1,9 @@
 package com.example.basedatos;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import java.security.MessageDigest;
@@ -20,20 +23,19 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-public class ModificarClienteFragment extends Fragment {
+public class DatosPersonalesFragment extends Fragment {
 
-    EditText idEditText, nombreEditText, apellidosEditText, direccionEditText, telefonoEditText, correoEditText, contraseniaEditText, nifEditText;
+    EditText  nombreEditText, apellidosEditText, direccionEditText, telefonoEditText, correoEditText, contraseniaEditText, nifEditText;
     DbHelper dbHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_modificar_cliente, container, false);
+        View view = inflater.inflate(R.layout.fragment_datos_personales, container, false);
 
         dbHelper = new DbHelper(requireContext());
 
-        idEditText = view.findViewById(R.id.Idcliente);
         nombreEditText = view.findViewById(R.id.Nombrecliente);
         apellidosEditText = view.findViewById(R.id.Apellidoscliente);
         direccionEditText = view.findViewById(R.id.Direccioncliente);
@@ -41,12 +43,13 @@ public class ModificarClienteFragment extends Fragment {
         correoEditText = view.findViewById(R.id.Correo_ecliente);
         contraseniaEditText = view.findViewById(R.id.Contraseniacliente);
         nifEditText = view.findViewById(R.id.Nifcliente);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        long idUsuario = sharedPreferences.getLong("idUsuario", -1);
 
         Button modificarButton = view.findViewById(R.id.Enviar);
         modificarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = idEditText.getText().toString();
                 String nombre = nombreEditText.getText().toString();
                 String apellidos = apellidosEditText.getText().toString();
                 String direccion = direccionEditText.getText().toString();
@@ -90,21 +93,69 @@ public class ModificarClienteFragment extends Fragment {
                 }
 
                 String selection = "id = ?";
-                String[] selectionArgs = {id};
+                String[] selectionArgs = {String.valueOf(idUsuario)};
 
                 int rowsUpdated = db.update("Usuarios", values, selection, selectionArgs);
 
                 if (rowsUpdated > 0) {
-                    Toast.makeText(getContext(), "Cliente modificado correctamente", Toast.LENGTH_SHORT).show();
-                    // Puedes redirigir al usuario a otra actividad o realizar otras acciones aquí
+                    Toast.makeText(getContext(), "Datos modificados correctamente", Toast.LENGTH_SHORT).show();
+
+                    String nuevoNombre = obtenerNombreUsuario(idUsuario);
+                    String nuevoCorreo = obtenerCorreoUsuario(idUsuario);
+
+                    // Actualiza SharedPreferences con la nueva información
+                    SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("nombreUsuario", nuevoNombre);
+                    editor.putString("correoUsuario", nuevoCorreo);
+                    editor.apply();
+                    TextView nombreTextView = getActivity().findViewById(R.id.nombreusuario);
+                    TextView correoTextView = getActivity().findViewById(R.id.gmailusuario);
+
+                    // Actualizar los TextView con los nuevos datos
+                    nombreTextView.setText(nuevoNombre);
+                    correoTextView.setText(nuevoCorreo);
                 } else {
-                    Toast.makeText(getContext(), "Error al modificar cliente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Error al modificar datos", Toast.LENGTH_SHORT).show();
                 }
 
                 db.close();
             }
         });
         return view;
+    }
+    @SuppressLint("Range")
+    public String obtenerNombreUsuario(long idUsuario) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String nombreUsuario = "";
+
+        Cursor cursor = db.rawQuery("SELECT Nombre FROM Usuarios WHERE id = ?",
+                new String[]{String.valueOf(idUsuario)});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                nombreUsuario = cursor.getString(cursor.getColumnIndex("Nombre"));
+            }
+            cursor.close();
+        }
+
+        return nombreUsuario;
+    }
+    @SuppressLint("Range")
+    public String obtenerCorreoUsuario(long idUsuario) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String correoUsuario = "";
+
+        Cursor cursor = db.rawQuery("SELECT Correo_e FROM Usuarios WHERE id = ?",
+                new String[]{String.valueOf(idUsuario)});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                correoUsuario = cursor.getString(cursor.getColumnIndex("Correo_e"));
+            }
+            cursor.close();
+        }
+        return correoUsuario;
     }
     protected String encriptar(String contrasenia) throws Exception {
         // Utiliza una clave secreta segura
