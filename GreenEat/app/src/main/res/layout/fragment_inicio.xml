@@ -10,7 +10,7 @@
     <ViewFlipper
         android:id="@+id/flipper"
         android:layout_width="match_parent"
-        android:layout_height="420dp">
+        android:layout_height="370dp">
 
         <ImageView
             android:layout_width="match_parent"
