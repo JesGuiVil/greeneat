@@ -53,11 +53,10 @@
                     android:scaleType="centerCrop"/>
 
                 <TextView
-                    android:gravity="center"
-                    android:layout_width="112dp"
+                    android:layout_width="130dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center_horizontal"
-                    android:inputType="textMultiLine"
+                    android:gravity="center"
                     android:text="Frutas y hortalizas"
                     android:textColor="@color/verdeoscuro"
                     android:textSize="25sp"
@@ -89,7 +88,7 @@
                     android:scaleType="centerCrop"/>
                 <TextView
                     android:gravity="center"
-                    android:layout_width="112dp"
+                    android:layout_width="130dp"
                     android:layout_height="60dp"
                     android:text="Cereales"
                     android:inputType="textMultiLine"
@@ -124,7 +123,7 @@
                     android:scaleType="centerCrop"/>
                 <TextView
                     android:gravity="center"
-                    android:layout_width="112dp"
+                    android:layout_width="130dp"
                     android:layout_height="60dp"
                     android:text="Lácteos"
                     android:inputType="textMultiLine"
@@ -159,7 +158,7 @@
                     android:scaleType="centerCrop"/>
                 <TextView
                     android:gravity="center"
-                    android:layout_width="112dp"
+                    android:layout_width="130dp"
                     android:layout_height="60dp"
                     android:text="Carne y pescado"
                     android:inputType="textMultiLine"
@@ -194,7 +193,7 @@
                     android:scaleType="centerCrop"/>
                 <TextView
                     android:gravity="center"
-                    android:layout_width="112dp"
+                    android:layout_width="130dp"
                     android:layout_height="60dp"
                     android:text="Bebidas"
                     android:inputType="textMultiLine"
@@ -228,7 +227,7 @@
                     android:layout_gravity="center_horizontal"/>
                 <TextView
                     android:gravity="center"
-                    android:layout_width="112dp"
+                    android:layout_width="130dp"
                     android:layout_height="60dp"
                     android:text="Ver todo"
                     android:inputType="textMultiLine"

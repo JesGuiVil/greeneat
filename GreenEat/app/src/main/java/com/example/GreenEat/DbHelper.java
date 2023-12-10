@@ -1,14 +1,18 @@
 package com.example.GreenEat;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -106,7 +110,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto1.put("Stock", 150);
         valuesProducto1.put("Descripcion", "Tomates de Los Palacios");
         valuesProducto1.put("ID_Proveedor", 1);
-        valuesProducto1.put("EnOferta", 0);
+        valuesProducto1.put("EnOferta", 1);
         valuesProducto1.put("Imagen", "file:///android_asset/tomates.png");
         long idProducto1 = db.insert("Productos", null, valuesProducto1);
 
@@ -146,7 +150,7 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto4.put("Stock", 500);
         valuesProducto4.put("Descripcion", "Semillas a granel");
         valuesProducto4.put("ID_Proveedor", 1);
-        valuesProducto4.put("EnOferta", 0);
+        valuesProducto4.put("EnOferta", 1);
         valuesProducto4.put("Imagen", "file:///android_asset/cebadas.png");
         long idProducto4 = db.insert("Productos", null, valuesProducto4);
 

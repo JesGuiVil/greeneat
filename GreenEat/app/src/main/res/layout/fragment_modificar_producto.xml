@@ -159,6 +159,20 @@
                         android:hint="ID del proveedor"
                         android:textSize="20dp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/enOferta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:hint="En oferta"
+                        android:textSize="20dp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
