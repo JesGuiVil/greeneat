@@ -4,22 +4,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".InicioFragment">
-    <ImageView
-        android:id="@+id/logoImageView"
-        android:layout_width="wrap_content"
+    tools:context=".InicioFragment"
+    android:background="@color/verde">
+
+    <ViewFlipper
+        android:id="@+id/flipper"
+        android:layout_width="match_parent"
+        android:layout_height="420dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/huerto"></ImageView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/vacas"></ImageView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/envases"></ImageView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/comrpometido"></ImageView>
+    </ViewFlipper>
+
+    <TextView
+        android:id="@+id/textooferta"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:alpha="0.5"
-        android:src="@drawable/logo" />
+        android:text="PRODUCTOS EN OFERTA:"
+        android:textStyle="bold"
+        android:textColor="@color/verdeoscuro"
+        android:textSize="25sp"
+        android:layout_below="@+id/flipper">
+
+    </TextView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerproductos"
+        android:id="@+id/recyclerOfertas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/textooferta">
 
-    <!-- Add your product cards dynamically using Java code -->
+    </androidx.recyclerview.widget.RecyclerView>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="40dp"
+        android:id="@+id/vercats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/hoja3"
+        android:text="VER CATEGORIAS"
+        android:textColor="@color/naranjabarra"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|center_horizontal" />
 
 </RelativeLayout>
-

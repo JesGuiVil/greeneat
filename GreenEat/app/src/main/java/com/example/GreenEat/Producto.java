@@ -10,11 +10,14 @@ public class Producto {
     private int stock;
     private String descripcion;
     private long idProveedor;
-    private String imagen; // Cambiado de String a Bitmap para representar la imagen
+
+    private int enOferta;
+    private String imagen;
+
 
     // Constructor
     public Producto(long id, String nombre, String seccion, double precio, double iva, double peso,
-                    int stock, String descripcion, long idProveedor, String imagen) {
+                    int stock, String descripcion, long idProveedor, int enOferta, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.seccion = seccion;
@@ -24,6 +27,7 @@ public class Producto {
         this.stock = stock;
         this.descripcion = descripcion;
         this.idProveedor = idProveedor;
+        this.enOferta = enOferta;
         this.imagen = imagen;
     }
 
@@ -99,6 +103,13 @@ public class Producto {
 
     public void setIdProveedor(long idProveedor) {
         this.idProveedor = idProveedor;
+    }
+    public int getEnOferta() {
+        return enOferta;
+    }
+
+    public void setEnOferta(int enOferta) {
+        this.enOferta = enOferta;
     }
 
     public String getImagen() {

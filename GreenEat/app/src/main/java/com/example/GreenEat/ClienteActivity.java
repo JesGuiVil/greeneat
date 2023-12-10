@@ -14,9 +14,9 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 
 public class ClienteActivity extends AppCompatActivity {
-    InicioFragment inicioFragment = new InicioFragment();
     CarritoFragment carritoFragment = new CarritoFragment();
     DatosPersonalesFragment datosPersonalesFragment = new DatosPersonalesFragment();
+    InicioFragment inicioFragment = new InicioFragment();
     CategoriasFragment categoriasFragment = new CategoriasFragment();
     MostrarProductoFragment mostrarProductoFragment = new MostrarProductoFragment();
     private NavigationView lateralNavigationView;
@@ -31,7 +31,7 @@ public class ClienteActivity extends AppCompatActivity {
         navigation = findViewById(R.id.bottom_navigation);
 
         navigation.setOnItemSelectedListener(mOnNavigationItemSelectedListener);
-        loadFragment(categoriasFragment);
+        loadFragment(inicioFragment);
         lateralNavigationView = findViewById(R.id.lateral_navigation);
         lateralNavigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         showHideLateralNavigationView(false);
@@ -70,7 +70,7 @@ public class ClienteActivity extends AppCompatActivity {
     private final  NavigationBarView.OnItemSelectedListener mOnNavigationItemSelectedListener = item -> {
         switch (item.getTitle().toString()) {
             case "Inicio":
-                loadFragment(categoriasFragment);
+                loadFragment(inicioFragment);
                 showHideLateralNavigationView(false);
                 return true;
             case "Carrito":
@@ -93,13 +93,18 @@ public class ClienteActivity extends AppCompatActivity {
 
             if (currentFragment == datosPersonalesFragment) {
                 // Si la cuenta está seleccionada, vuelve a inicio
-                loadFragment(categoriasFragment);
+                loadFragment(inicioFragment);
                 navigation.setSelectedItemId(R.id.iniciomenu);
                 showHideLateralNavigationView(false);
             } else if (currentFragment == mostrarProductoFragment || currentFragment instanceof MostrarProductoFragment) {
                 // Utiliza instanceof para manejar posibles nulls y asegurarte de que sea MostrarProductoFragment
                 loadFragment(categoriasFragment);
             } else if (currentFragment == categoriasFragment) {
+                loadFragment(inicioFragment);
+            } else if (currentFragment == carritoFragment) {
+                loadFragment(inicioFragment);
+                navigation.setSelectedItemId(R.id.iniciomenu);
+            } else if (currentFragment == inicioFragment){
                 super.onBackPressed();
             }
         }

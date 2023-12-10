@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 
 public class AnadirProductoFragment extends Fragment {
 
-    private EditText nombreEditText, categoriaEditText, precioEditText, ivaEditText, pesoEditText, stockEditText, descripcionEditText, idProveedor;
+    private EditText nombreEditText, categoriaEditText, precioEditText, ivaEditText, pesoEditText, stockEditText, descripcionEditText, idProveedor,enOfertaEditText;
     private ImageView imagenProducto;
     private Uri imagenUri;
     private DbHelper dbHelper;
@@ -44,6 +44,16 @@ public class AnadirProductoFragment extends Fragment {
         descripcionEditText = view.findViewById(R.id.Descripcion);
         imagenProducto = view.findViewById(R.id.ImagenProducto);
         idProveedor = view.findViewById(R.id.idProveedor);
+        enOfertaEditText = view.findViewById(R.id.enOferta);
+        // Button to add a new product
+        Button enviarButton = view.findViewById(R.id.Enviar);
+        enviarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Implement the logic to add a new product to the database
+                addProductToDatabase();
+            }
+        });
 
         // Button to select an image
         Button seleccionarImagenButton = view.findViewById(R.id.SeleccionarImagen);
@@ -55,20 +65,8 @@ public class AnadirProductoFragment extends Fragment {
                 startActivityForResult(intent, 1);
             }
         });
-
-        // Button to add a new product
-        Button enviarButton = view.findViewById(R.id.Enviar);
-        enviarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Implement the logic to add a new product to the database
-                addProductToDatabase();
-            }
-        });
-
         return view;
     }
-
     private void addProductToDatabase() {
         String nombre = nombreEditText.getText().toString();
         String categoria = categoriaEditText.getText().toString();
@@ -77,6 +75,8 @@ public class AnadirProductoFragment extends Fragment {
         double peso = Double.parseDouble(pesoEditText.getText().toString());
         int stock = Integer.parseInt(stockEditText.getText().toString());
         String descripcion = descripcionEditText.getText().toString();
+        int idproveedor = Integer.parseInt(idProveedor.getText().toString());
+        int enoferta = Integer.parseInt(enOfertaEditText.getText().toString());
 
         if (nombre.isEmpty() || categoria.isEmpty()) {
             Toast.makeText(requireContext(), "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
@@ -92,7 +92,8 @@ public class AnadirProductoFragment extends Fragment {
                 values.put("Peso", peso);
                 values.put("Stock", stock);
                 values.put("Descripcion", descripcion);
-                values.put("ID_Proveedor", idProveedor.getText().toString());
+                values.put("ID_Proveedor", idproveedor);
+                values.put("EnOferta", enoferta);
                 values.put("Imagen", imagenUri.toString()); // Almacena la ruta de la imagen
 
                 long newRowId = db.insert("Productos", null, values);
@@ -108,6 +109,7 @@ public class AnadirProductoFragment extends Fragment {
                     stockEditText.setText("");
                     descripcionEditText.setText("");
                     idProveedor.setText("");
+                    enOfertaEditText.setText("");
                     imagenProducto.setImageURI(null);
                 } else {
                     Toast.makeText(requireContext(), "Error al agregar el producto", Toast.LENGTH_SHORT).show();

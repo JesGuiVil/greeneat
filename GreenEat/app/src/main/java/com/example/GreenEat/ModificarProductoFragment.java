@@ -23,7 +23,7 @@ import java.io.IOException;
 
 public class ModificarProductoFragment extends Fragment {
 
-    private EditText idProductoEditText, nombreEditText, categoriaEditText, precioEditText, ivaEditText, pesoEditText, stockEditText, descripcionEditText, idProveedorEditText;
+    private EditText idProductoEditText, nombreEditText, categoriaEditText, precioEditText, ivaEditText, pesoEditText, stockEditText, descripcionEditText, idProveedorEditText, enOfertaEditText;
     private ImageView imagenProducto;
     private Uri imagenUri;
     private DbHelper dbHelper;
@@ -54,6 +54,7 @@ public class ModificarProductoFragment extends Fragment {
         descripcionEditText = view.findViewById(R.id.Descripcion);
         imagenProducto = view.findViewById(R.id.ImagenProducto);
         idProveedorEditText = view.findViewById(R.id.idProveedor);
+        enOfertaEditText = view.findViewById(R.id.enOferta);
 
         // Button to select an image
         Button seleccionarImagenButton = view.findViewById(R.id.SeleccionarImagen);
@@ -89,6 +90,7 @@ public class ModificarProductoFragment extends Fragment {
         String stockStr = stockEditText.getText().toString();
         String descripcion = descripcionEditText.getText().toString();
         String idProveedor = idProveedorEditText.getText().toString();
+        String enOferta = enOfertaEditText.getText().toString();
 
         try {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -102,21 +104,9 @@ public class ModificarProductoFragment extends Fragment {
             if (!stockStr.isEmpty()) values.put("Stock", Integer.parseInt(stockStr));
             if (!descripcion.isEmpty()) values.put("Descripcion", descripcion);
             if (!idProveedor.isEmpty()) values.put("ID_Proveedor", idProveedor);
+            if (!enOferta.isEmpty()) values.put("EnOferta", Integer.parseInt(enOferta));
+            if (imagenUri !=null) values.put("Imagen", imagenUri.toString());
 
-            if (imagenUri != null) {
-                Bitmap imagenRedimensionada = redimensionarImagen(imagenUri, 400, 400);
-
-                if (imagenRedimensionada != null) {
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    imagenRedimensionada.compress(Bitmap.CompressFormat.PNG, 0, baos);
-                    byte[] imagenEnBytes = baos.toByteArray();
-
-                    values.put("Imagen", imagenEnBytes);
-                } else {
-                    Toast.makeText(requireContext(), "Error al redimensionar la imagen", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
 
             String[] whereArgs = {idProducto};
             int numRowsUpdated = db.update("Productos", values, "id=?", whereArgs);
@@ -135,6 +125,15 @@ public class ModificarProductoFragment extends Fragment {
             Toast.makeText(requireContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == getActivity().RESULT_OK && data != null) {
+            imagenUri = data.getData();
+            imagenProducto.setImageURI(imagenUri);
+        }
+    }
 
     private void limpiarCampos() {
         idProductoEditText.setText("");
@@ -147,34 +146,5 @@ public class ModificarProductoFragment extends Fragment {
         descripcionEditText.setText("");
         idProveedorEditText.setText("");
         imagenProducto.setImageURI(null);
-    }
-
-    private Bitmap redimensionarImagen(Uri uri, int nuevoAncho, int nuevoAlto) {
-        try {
-            Bitmap bitmapOriginal = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), uri);
-
-            float proporcionAncho = ((float) nuevoAncho) / bitmapOriginal.getWidth();
-            float proporcionAlto = ((float) nuevoAlto) / bitmapOriginal.getHeight();
-            float proporcionMasPequena = Math.min(proporcionAncho, proporcionAlto);
-
-            int anchoRedimensionado = Math.round(proporcionMasPequena * bitmapOriginal.getWidth());
-            int altoRedimensionado = Math.round(proporcionMasPequena * bitmapOriginal.getHeight());
-
-            return Bitmap.createScaledBitmap(bitmapOriginal, anchoRedimensionado, altoRedimensionado, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(requireContext(), "Error al redimensionar la imagen: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            return null;
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1 && resultCode == getActivity().RESULT_OK && data != null) {
-            imagenUri = data.getData();
-            imagenProducto.setImageURI(imagenUri);
-        }
     }
 }

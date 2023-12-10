@@ -16,6 +16,8 @@ public class InvitadoActivity extends AppCompatActivity {
     InicioFragment inicioFragment = new InicioFragment();
     CarritoFragment carritoFragment = new CarritoFragment();
     DatosPersonalesFragment datosPersonalesFragment = new DatosPersonalesFragment();
+    CategoriasFragment categoriasFragment = new CategoriasFragment();
+    MostrarProductoFragment mostrarProductoFragment = new MostrarProductoFragment();
     private NavigationView lateralNavigationView;
     private NavigationBarView navigation;
 
@@ -69,14 +71,20 @@ public class InvitadoActivity extends AppCompatActivity {
         } else {
             // Si el lateral navigation está oculto
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-
             if (currentFragment == datosPersonalesFragment) {
                 // Si la cuenta está seleccionada, vuelve a inicio
                 loadFragment(inicioFragment);
                 navigation.setSelectedItemId(R.id.iniciomenu);
                 showHideLateralNavigationView(false);
-            } else if (currentFragment == inicioFragment) {
-                // Si ya estás en inicio, cierra la aplicación
+            } else if (currentFragment == mostrarProductoFragment || currentFragment instanceof MostrarProductoFragment) {
+                // Utiliza instanceof para manejar posibles nulls y asegurarte de que sea MostrarProductoFragment
+                loadFragment(categoriasFragment);
+            } else if (currentFragment == categoriasFragment) {
+                loadFragment(inicioFragment);
+            } else if (currentFragment == carritoFragment) {
+                loadFragment(inicioFragment);
+                navigation.setSelectedItemId(R.id.iniciomenu);
+            } else if (currentFragment == inicioFragment){
                 super.onBackPressed();
             }
         }

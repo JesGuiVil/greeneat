@@ -79,11 +79,12 @@ public class MostrarProductoFragment extends Fragment {
                     double iva = cursor.getDouble(cursor.getColumnIndexOrThrow("IVA"));
                     double peso = cursor.getDouble(cursor.getColumnIndexOrThrow("Peso"));
                     int stock = cursor.getInt(cursor.getColumnIndexOrThrow("Stock"));
+                    long proveedor = cursor.getLong(cursor.getColumnIndexOrThrow("ID_Proveedor"));
                     int enOferta = cursor.getInt(cursor.getColumnIndexOrThrow("EnOferta"));
                     String imagenPath = cursor.getString(cursor.getColumnIndexOrThrow("Imagen"));
 
                     // Crear un objeto Producto y agregarlo a la lista
-                    Producto producto = new Producto(id, nombre, categoria, precio, iva, peso, stock, descripcion, enOferta, imagenPath);
+                    Producto producto = new Producto(id, nombre, categoria, precio, iva, peso, stock, descripcion,proveedor, enOferta, imagenPath);
                     productos.add(producto);
 
                 } while (cursor.moveToNext());
@@ -121,11 +122,12 @@ public class MostrarProductoFragment extends Fragment {
                     double iva = cursor.getDouble(cursor.getColumnIndexOrThrow("IVA"));
                     double peso = cursor.getDouble(cursor.getColumnIndexOrThrow("Peso"));
                     int stock = cursor.getInt(cursor.getColumnIndexOrThrow("Stock"));
+                    long proveedor = cursor.getLong(cursor.getColumnIndexOrThrow("ID_Proveedor"));
                     int enOferta = cursor.getInt(cursor.getColumnIndexOrThrow("EnOferta"));
                     String imagenPath = cursor.getString(cursor.getColumnIndexOrThrow("Imagen"));
 
                     // Crear un objeto Producto y agregarlo a la lista
-                    Producto producto = new Producto(id, nombre, categoria, precio, iva, peso, stock, descripcion, enOferta, imagenPath);
+                    Producto producto = new Producto(id, nombre, categoria, precio, iva, peso, stock, descripcion,proveedor, enOferta, imagenPath);
                     productos.add(producto);
 
                 } while (cursor.moveToNext());
