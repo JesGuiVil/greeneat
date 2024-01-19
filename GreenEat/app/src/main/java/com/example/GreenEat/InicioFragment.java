@@ -33,7 +33,7 @@ public class InicioFragment extends Fragment {
         recyclerOfertas = view.findViewById(R.id.recyclerOfertas);
         recyclerOfertas.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         if (productoOfertaAdapter == null) {
-            productoOfertaAdapter = new ProductoAdapter();
+            productoOfertaAdapter = new ProductoAdapter(requireContext());
         }
         recyclerOfertas.setAdapter(productoOfertaAdapter);
         cargarProductosEnOferta();

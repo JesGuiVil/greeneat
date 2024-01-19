@@ -16,6 +16,7 @@ import com.google.android.material.navigation.NavigationView;
 public class ClienteActivity extends AppCompatActivity {
     CarritoFragment carritoFragment = new CarritoFragment();
     DatosPersonalesFragment datosPersonalesFragment = new DatosPersonalesFragment();
+    DeseadosFragment deseadosFragment = new DeseadosFragment();
     InicioFragment inicioFragment = new InicioFragment();
     CategoriasFragment categoriasFragment = new CategoriasFragment();
     MostrarProductoFragment mostrarProductoFragment = new MostrarProductoFragment();
@@ -61,6 +62,14 @@ public class ClienteActivity extends AppCompatActivity {
                 return true;
             case "Modificar datos":
                 loadFragment(datosPersonalesFragment);
+                showHideLateralNavigationView(false);
+                return true;
+            case "Lista de deseos":
+                loadFragment(deseadosFragment);
+                showHideLateralNavigationView(false);
+                return true;
+            case "Mis Pedidos":
+                loadFragment(deseadosFragment);
                 showHideLateralNavigationView(false);
                 return true;
         }
