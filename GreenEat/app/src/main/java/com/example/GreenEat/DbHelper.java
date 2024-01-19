@@ -232,6 +232,14 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesProducto10.put("Imagen", "file:///android_asset/aguadecocos.png");
         long idProducto10 = db.insert("Productos", null, valuesProducto10);
 
+        String CREATE_ProductosDeseados_TABLE= "CREATE TABLE ProductosDeseados ("  +
+                "idDeseados INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                "idUsuario INTEGER,"+
+                "idProducto INTEGER,"+
+                "FOREIGN KEY (idUsuario) REFERENCES Usuarios(id),"+
+                "FOREIGN KEY (idProducto) REFERENCES Productos(id)"+
+        ")";
+        db.execSQL(CREATE_ProductosDeseados_TABLE);
 
         // Tabla Pedidos
         String CREATE_PEDIDOS_TABLE = "CREATE TABLE Pedidos (" +
@@ -288,5 +296,26 @@ public class DbHelper extends SQLiteOpenHelper {
         String path = db.getPath();
         db.close();
         return path != null && !path.isEmpty();
+    }
+    public void agregarProductoDeseado(long idUsuario, long idProducto) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("idUsuario", idUsuario);
+        values.put("idProducto", idProducto);
+
+        db.insert("ProductosDeseados", null, values);
+
+        db.close();
+    }
+    public void eliminarProductoDeseado(long idUsuario, long idProducto) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String whereClause = "idUsuario = ? AND idProducto = ?";
+        String[] whereArgs = new String[]{String.valueOf(idUsuario), String.valueOf(idProducto)};
+
+        db.delete("ProductosDeseados", whereClause, whereArgs);
+
+        db.close();
     }
 }

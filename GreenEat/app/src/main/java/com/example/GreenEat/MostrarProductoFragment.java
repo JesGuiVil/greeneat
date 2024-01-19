@@ -33,7 +33,7 @@ public class MostrarProductoFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         if (productoAdapter == null) {
-            productoAdapter = new ProductoAdapter();
+            productoAdapter = new ProductoAdapter(requireContext());
         }
 
         recyclerView.setAdapter(productoAdapter);
