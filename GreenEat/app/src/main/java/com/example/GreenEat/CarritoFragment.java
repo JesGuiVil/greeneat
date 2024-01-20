@@ -1,64 +1,113 @@
 package com.example.GreenEat;
 
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CarritoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CarritoFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView recyclerView;
+    private ProductoAdapter productoAdapter;
+    private long idUsuario;
 
     public CarritoFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CarritoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CarritoFragment newInstance(String param1, String param2) {
-        CarritoFragment fragment = new CarritoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_carrito, container, false);
+        View view = inflater.inflate(R.layout.fragment_carrito, container, false);
+
+        recyclerView = view.findViewById(R.id.recyclerproductos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        if (productoAdapter == null) {
+            productoAdapter = new ProductoAdapter(requireContext());
+            productoAdapter.setCarritoFragment(this);
+        }
+
+        recyclerView.setAdapter(productoAdapter);
+
+        SharedPreferences prefs = requireContext().getSharedPreferences("MisPreferencias", requireContext().MODE_PRIVATE);
+        idUsuario = prefs.getLong("idUsuario", -1);
+
+        cargarCarrito();
+
+        Button realizarPedidoButton = view.findViewById(R.id.Enviar);
+        realizarPedidoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DbHelper dbHelper = new DbHelper(requireContext());
+                boolean pedidoExitoso= dbHelper.realizarPedido(idUsuario);
+
+                cargarCarrito(); // Actualizar la vista después de realizar el pedido
+                if (pedidoExitoso) {
+                    Toast.makeText(requireContext(), "Pedido realizado con éxito", Toast.LENGTH_SHORT).show();
+                } else {
+                Toast.makeText(requireContext(), "Error al realizar el pedido. Inténtalo de nuevo.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return view;
+    }
+
+    public void cargarCarrito() {
+        // Modifica la lógica para obtener todos los productos de la base de datos
+        DbHelper dbHelper = new DbHelper(requireContext());
+        List<Producto> productos = obtenerProductosCarrito(dbHelper, idUsuario);
+
+        // Agregar los productos al adaptador
+        productoAdapter.setProductos(productos);
+        productoAdapter.notifyDataSetChanged();
+    }
+    private List<Producto> obtenerProductosCarrito(DbHelper dbHelper, long idUsuario) {
+        List<Producto> productos = new ArrayList<>();
+
+        try (SQLiteDatabase db = dbHelper.getReadableDatabase();
+             Cursor cursor = db.rawQuery("SELECT p.* FROM ProductosCarrito pd " +
+                     "JOIN Productos p ON pd.idProducto = p.id " +
+                     "WHERE pd.idUsuario = ?", new String[]{String.valueOf(idUsuario)})) {
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    // Obtener datos del producto deseado
+                    long idProducto = cursor.getLong(cursor.getColumnIndexOrThrow("id"));
+                    String nombre = cursor.getString(cursor.getColumnIndexOrThrow("Nombre"));
+                    String categoria = cursor.getString(cursor.getColumnIndexOrThrow("Categoria"));
+                    double precio = cursor.getDouble(cursor.getColumnIndexOrThrow("Precio"));
+                    double iva = cursor.getDouble(cursor.getColumnIndexOrThrow("IVA"));
+                    double peso = cursor.getDouble(cursor.getColumnIndexOrThrow("Peso"));
+                    int stock = cursor.getInt(cursor.getColumnIndexOrThrow("Stock"));
+                    String descripcion = cursor.getString(cursor.getColumnIndexOrThrow("Descripcion"));
+                    long proveedor = cursor.getLong(cursor.getColumnIndexOrThrow("ID_Proveedor"));
+                    int enOferta = cursor.getInt(cursor.getColumnIndexOrThrow("EnOferta"));
+                    String imagenPath = cursor.getString(cursor.getColumnIndexOrThrow("Imagen"));
+
+                    // Crear un objeto Producto y agregarlo a la lista
+                    Producto producto = new Producto(idProducto, nombre, categoria, precio, iva, peso, stock, descripcion, proveedor, enOferta, imagenPath);
+                    productos.add(producto);
+
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Manejar error al obtener los registros
+        }
+        return productos;
     }
 }

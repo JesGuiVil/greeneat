@@ -241,37 +241,38 @@ public class DbHelper extends SQLiteOpenHelper {
         ")";
         db.execSQL(CREATE_ProductosDeseados_TABLE);
 
-        // Tabla Pedidos
-        String CREATE_PEDIDOS_TABLE = "CREATE TABLE Pedidos (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "Total REAL, " +
-                "Direccion_factu TEXT, " +
-                "Fecha DATE, " +
-                "Fecha_entrega DATE, " +
-                "ID_Usuario INTEGER, " +
-                "FOREIGN KEY (ID_Usuario) REFERENCES Usuarios(id) " +
+        String CREATE_ProductosCarrito_TABLE = "CREATE TABLE ProductosCarrito (" +
+                "idCarrito INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "idUsuario INTEGER," +
+                "idProducto INTEGER," +
+                "cantidad INTEGER," +
+                "FOREIGN KEY (idUsuario) REFERENCES Usuarios(id)," +
+                "FOREIGN KEY (idProducto) REFERENCES Productos(id)" +
                 ")";
-        db.execSQL(CREATE_PEDIDOS_TABLE);
+        db.execSQL(CREATE_ProductosCarrito_TABLE);
+
+        // Tabla Pedidos
+        String CREATE_Pedidos_TABLE = "CREATE TABLE Pedidos (" +
+                "idPedido INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "idUsuario INTEGER," +
+                "fechaPedido TEXT," +
+                "costeTotal REAL," + // Nueva columna para el coste total
+                "FOREIGN KEY (idUsuario) REFERENCES Usuarios(id)" +
+                ")";
+        db.execSQL(CREATE_Pedidos_TABLE);
 
         // Tabla Incluye
-        String CREATE_INCLUYE_TABLE = "CREATE TABLE Incluye (" +
-                "ID_Pedido INTEGER, " +
-                "ID_Producto INTEGER, " +
-                "PRIMARY KEY (ID_Pedido, ID_Producto), " +
-                "FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(id), " +
-                "FOREIGN KEY (ID_Producto) REFERENCES Productos(id) " +
+        String CREATE_ProductosPedido_TABLE = "CREATE TABLE ProductosPedido (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "idPedido INTEGER," +
+                "idProducto INTEGER," +
+                "cantidad INTEGER," +
+                "FOREIGN KEY (idPedido) REFERENCES Pedidos(id)," +
+                "FOREIGN KEY (idProducto) REFERENCES Productos(id)" +
                 ")";
-        db.execSQL(CREATE_INCLUYE_TABLE);
+        db.execSQL(CREATE_ProductosPedido_TABLE);
 
-        // Tabla Reclamaciones
-        String CREATE_RECLAMACIONES_TABLE = "CREATE TABLE Reclamaciones (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "ID_Pedido INTEGER, " +
-                "Descripcion TEXT, " +
-                "Estado_activo INTEGER, " +
-                "FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(id) " +
-                ")";
-        db.execSQL(CREATE_RECLAMACIONES_TABLE);
+
     }
 
     @Override
@@ -280,9 +281,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE Usuarios");
         db.execSQL("DROP TABLE Productos");
         db.execSQL("DROP TABLE Pedidos");
-        db.execSQL("DROP TABLE Incluye");
-        db.execSQL("DROP TABLE Reclamaciones");
-
         onCreate(db);
     }
 
@@ -308,6 +306,18 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    public void agregarProductoCarrito(long idUsuario, long idProducto, int cantidad) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("idUsuario", idUsuario);
+        values.put("idProducto", idProducto);
+        values.put("cantidad", cantidad);
+
+        db.insert("ProductosCarrito", null, values);
+
+        db.close();
+    }
     public void eliminarProductoDeseado(long idUsuario, long idProducto) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -318,4 +328,150 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    public void eliminarProductoCarrito(long idUsuario, long idProducto) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String whereClause = "idUsuario = ? AND idProducto = ?";
+        String[] whereArgs = new String[]{String.valueOf(idUsuario), String.valueOf(idProducto)};
+
+        db.delete("ProductosCarrito", whereClause, whereArgs);
+
+        db.close();
+    }
+    public boolean realizarPedido(long idUsuario) {
+        SQLiteDatabase db = null;
+
+        try {
+            db = this.getWritableDatabase();
+
+            // Iniciar transacción
+            db.beginTransaction();
+
+            // Obtener la fecha actual
+            String fechaPedido = obtenerFechaActual();
+
+            // Insertar el pedido y obtener el ID del pedido recién insertado
+            ContentValues valuesPedido = new ContentValues();
+            valuesPedido.put("idUsuario", idUsuario);
+            valuesPedido.put("fechaPedido", fechaPedido);
+
+            // Calcular el coste total sumando los precios de los productos en el carrito
+            double costeTotal = calcularCosteTotal(idUsuario, db);
+            valuesPedido.put("costeTotal", costeTotal);
+
+            long idPedido = db.insert("Pedidos", null, valuesPedido);
+
+            if (idPedido == -1) {
+                // Si la inserción del pedido falla, deshacer la transacción y devolver false
+                db.endTransaction();
+                return false;
+            }
+
+            // Transferir productos del carrito al pedido
+            transferirProductosAlPedido(idUsuario, idPedido, db);
+
+            // Borrar productos del carrito después de realizar el pedido
+            borrarProductosCarrito(idUsuario, db);
+
+            // Confirmar la transacción
+            db.setTransactionSuccessful();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Manejar cualquier error y devolver false
+            return false;
+
+        } finally {
+            // Finalizar la transacción y cerrar la base de datos
+            if (db != null) {
+                db.endTransaction();
+                db.close();
+            }
+        }
+    }
+
+    private double calcularCosteTotal(long idUsuario, SQLiteDatabase db) {
+        double costeTotal = 0;
+
+        // Obtener todos los productos del carrito para el usuario específico
+        Cursor cursor = db.rawQuery("SELECT P.Precio, PC.cantidad FROM ProductosCarrito PC " +
+                "INNER JOIN Productos P ON PC.idProducto = P.id " +
+                "WHERE PC.idUsuario = ?", new String[]{String.valueOf(idUsuario)});
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") double precioProducto = cursor.getDouble(cursor.getColumnIndex("Precio"));
+                @SuppressLint("Range") int cantidadProducto = cursor.getInt(cursor.getColumnIndex("cantidad"));
+                costeTotal += (precioProducto * cantidadProducto);
+            } while (cursor.moveToNext());
+
+            // Cerrar el cursor después de usarlo
+            cursor.close();
+        }
+
+        return costeTotal;
+    }
+
+    @SuppressLint("Range")
+    private void transferirProductosAlPedido(long idUsuario, long idPedido, SQLiteDatabase db) {
+        // Obtener todos los productos del carrito para el usuario específico
+        Cursor cursor = db.rawQuery("SELECT * FROM ProductosCarrito WHERE idUsuario = ?", new String[]{String.valueOf(idUsuario)});
+
+        // Mover los productos del carrito al pedido
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                ContentValues values = new ContentValues();
+                values.put("idPedido", idPedido);
+                values.put("idProducto", cursor.getLong(cursor.getColumnIndex("idProducto")));
+                values.put("cantidad", cursor.getInt(cursor.getColumnIndex("cantidad")));
+
+                // Insertar producto en la tabla de pedidos
+                db.insert("ProductosPedido", null, values);
+            } while (cursor.moveToNext());
+
+            // Cerrar el cursor después de usarlo
+            cursor.close();
+        }
+    }
+    public void borrarProductosCarrito(long idUsuario, SQLiteDatabase db) {
+        String whereClause = "idUsuario = ?";
+        String[] whereArgs = new String[]{String.valueOf(idUsuario)};
+
+        db.delete("ProductosCarrito", whereClause, whereArgs);
+    }
+    @SuppressLint("Range")
+    public int obtenerCantidadProductoCarrito(long idUsuario, long idProducto) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String query = "SELECT cantidad FROM ProductosCarrito WHERE idUsuario = ? AND idProducto = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(idUsuario), String.valueOf(idProducto)});
+
+        int cantidad = 0;
+
+        if (cursor != null && cursor.moveToFirst()) {
+            cantidad = cursor.getInt(cursor.getColumnIndex("cantidad"));
+            cursor.close();
+        }
+
+        db.close();
+        return cantidad;
+    }
+
+    public void actualizarCantidadProductoCarrito(long idUsuario, long idProducto, int nuevaCantidad) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("cantidad", nuevaCantidad);
+
+        String whereClause = "idUsuario = ? AND idProducto = ?";
+        String[] whereArgs = new String[]{String.valueOf(idUsuario), String.valueOf(idProducto)};
+
+        db.update("ProductosCarrito", values, whereClause, whereArgs);
+
+        db.close();
+    }
+
+
+
 }

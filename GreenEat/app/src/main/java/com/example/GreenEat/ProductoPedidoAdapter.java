@@ -21,19 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder> {
+public class ProductoPedidoAdapter extends RecyclerView.Adapter<ProductoPedidoAdapter.ProductoViewHolder> {
 
     private static List<Producto> productos;
     public long idUsuario;
     private SharedPreferences prefs;
-    private CarritoFragment carritoFragment;
 
-    public ProductoAdapter(Context context) {
+    public ProductoPedidoAdapter(Context context) {
         prefs = context.getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
         idUsuario = prefs.getLong("idUsuario", -1);
-    }
-    public void setCarritoFragment(CarritoFragment carritoFragment) {
-        this.carritoFragment = carritoFragment;
     }
 
 
@@ -55,6 +51,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         notifyDataSetChanged();  // Notificar al adaptador sobre la adición de nuevos productos
     }
 
+
     @NonNull
     @Override
     public ProductoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -74,8 +71,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         String precioFormateado = String.format(Locale.getDefault(), "%.2f €", producto.getPrecio());
         holder.precioTextView.setText(precioFormateado);
 
-        int cantidadEnCarrito = obtenerCantidadEnCarrito(producto.getId(), holder.itemView.getContext());
-        holder.cantidadTextView.setText(String.valueOf(cantidadEnCarrito));
+        holder.cantidadTextView.setText(String.valueOf(producto.getCantidad()));
 
         // Establecer el recurso de imagen del favicon según la condición
         if (isProductoEnListaFavoritos(producto.getId(),holder.itemView.getContext())) {
@@ -83,11 +79,8 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         } else {
             holder.faviconImageView.setImageResource(R.drawable.emptyfav);
         }
-        if (isProductoEnListaCarrito(producto.getId(),holder.itemView.getContext())) {
-            holder.cartImageView.setImageResource(R.drawable.removecart);
-        } else {
-            holder.cartImageView.setImageResource(R.drawable.addcart);
-        }
+
+        holder.cartImageView.setImageResource(R.drawable.addcart);
         // Cargar la imagen usando Glide
         Glide.with(holder.itemView.getContext())
                 .load(producto.getImagen())
@@ -112,24 +105,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
 
         return productoEnLista;
     }
-    private boolean isProductoEnListaCarrito(long idProducto, Context context) {
-        // Verificar si el producto está en la lista de favoritos
-        DbHelper dbHelper = new DbHelper(context);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // Consultar la tabla ProductosDeseados para ver si existe una entrada con el idUsuario y el idProducto
-        Cursor cursor = db.rawQuery("SELECT * FROM ProductosCarrito WHERE idUsuario = ? AND idProducto = ?",
-                new String[]{String.valueOf(idUsuario), String.valueOf(idProducto)});
-
-        boolean productoEnLista = false;
-
-        if (cursor != null) {
-            productoEnLista = cursor.getCount() > 0; // Si hay al menos una fila, el producto está en la lista
-            cursor.close();
-        }
-
-        return productoEnLista;
-    }
 
 
     @Override
@@ -166,20 +142,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
                     agregarAFavoritos(productos.get(getAdapterPosition()).getId());
                 }
             });
-            cartImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String cantidadStr = cantidadEditText.getText().toString().trim();
-                    if (!cantidadStr.isEmpty()) {
-                        int cantidad = Integer.parseInt(cantidadStr);
-                        // Manejar el clic en el ícono del carrito aquí
-                        agregarAlCarrito(productos.get(getAdapterPosition()).getId(), cantidad);
-                    } else {
-                        // Mostrar un mensaje si el EditText está vacío
-                        Toast.makeText(itemView.getContext(), "Ingrese una cantidad", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+
         }
         private void agregarAFavoritos(long idProducto) {
             if (idUsuario != -1) {
@@ -202,44 +165,5 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
                 Toast.makeText(itemView.getContext(), "No se pudo añadir/eliminar el producto. Inténtalo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
             }
         }
-        private void agregarAlCarrito(long idProducto, int cantidad) {
-            if (idUsuario != -1) {
-                DbHelper dbHelper = new DbHelper(itemView.getContext());
-                boolean productoEnLista = isProductoEnListaCarrito(idProducto, itemView.getContext());
-
-                if (!productoEnLista) {
-                    // El producto no está en la lista, así que lo agregamos
-                    cartImageView.setImageResource(R.drawable.removecart);
-                    dbHelper.agregarProductoCarrito(idUsuario, idProducto, cantidad);
-                    Toast.makeText(itemView.getContext(), cantidad + " producto(s) añadido(s) al carrito", Toast.LENGTH_SHORT).show();
-                } else {
-                    // El producto ya está en la lista, así que obtenemos la cantidad actual
-                    int cantidadActual = dbHelper.obtenerCantidadProductoCarrito(idUsuario, idProducto);
-
-                    // Restamos la nueva cantidad de la cantidad actual
-                    int nuevaCantidad = cantidadActual - cantidad;
-
-                    if (nuevaCantidad > 0) {
-                        // Actualizamos la cantidad en el carrito
-                        dbHelper.actualizarCantidadProductoCarrito(idUsuario, idProducto, nuevaCantidad);
-                        Toast.makeText(itemView.getContext(), cantidad + " producto(s) eliminado(s) del carrito", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // Si la nueva cantidad es cero o menos, eliminamos el producto del carrito
-                        cartImageView.setImageResource(R.drawable.addcart);
-                        dbHelper.eliminarProductoCarrito(idUsuario, idProducto);
-                        Toast.makeText(itemView.getContext(), "Producto eliminado del carrito", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                cantidadEditText.setText("");
-            } else {
-                Toast.makeText(itemView.getContext(), "No se pudo añadir/eliminar el producto. Inténtalo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
-            }
-            notifyDataSetChanged();
-        }
-    }
-
-    private int obtenerCantidadEnCarrito(long idProducto, Context context) {
-        DbHelper dbHelper = new DbHelper(context);
-        return dbHelper.obtenerCantidadProductoCarrito(idUsuario, idProducto);
     }
 }
