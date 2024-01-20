@@ -17,6 +17,7 @@ public class ClienteActivity extends AppCompatActivity {
     CarritoFragment carritoFragment = new CarritoFragment();
     DatosPersonalesFragment datosPersonalesFragment = new DatosPersonalesFragment();
     DeseadosFragment deseadosFragment = new DeseadosFragment();
+    MisPedidosFragment misPedidosFragment = new MisPedidosFragment();
     InicioFragment inicioFragment = new InicioFragment();
     CategoriasFragment categoriasFragment = new CategoriasFragment();
     MostrarProductoFragment mostrarProductoFragment = new MostrarProductoFragment();
@@ -68,8 +69,8 @@ public class ClienteActivity extends AppCompatActivity {
                 loadFragment(deseadosFragment);
                 showHideLateralNavigationView(false);
                 return true;
-            case "Mis Pedidos":
-                loadFragment(deseadosFragment);
+            case "Mis pedidos":
+                loadFragment(misPedidosFragment);
                 showHideLateralNavigationView(false);
                 return true;
         }

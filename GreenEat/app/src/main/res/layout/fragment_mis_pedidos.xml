@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CarritoFragment">
+    tools:context=".MisPedidosFragment">
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="wrap_content"
@@ -14,18 +14,11 @@
         android:src="@drawable/logo" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerproductos"
+        android:id="@+id/recyclerpedidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/Enviar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Realizar pedido"
 
-        android:textSize="30dp" />
+    <!-- Add your product cards dynamically using Java code -->
+
 
 </RelativeLayout>
-
-

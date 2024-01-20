@@ -13,6 +13,11 @@
         android:icon="@drawable/listadeseos"
         android:title="Lista de deseos"
         android:checkable="true"/>
+    <item
+        android:id="@+id/listapedidos"
+        android:icon="@drawable/pedido"
+        android:title="Mis pedidos"
+        android:checkable="true"/>
 
     <item
         android:id="@+id/logout"

@@ -1,7 +1,11 @@
 package com.example.GreenEat;
 
-public class Producto {
+import java.io.Serializable;
+
+public class Producto implements Serializable {
     private long id;
+
+    private int cantidad;
     private String nombre;
     private String seccion;
     private double precio;
@@ -118,5 +122,12 @@ public class Producto {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 }
