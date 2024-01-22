@@ -112,7 +112,7 @@ public class MisPedidosFragment extends Fragment implements PedidoAdapter.OnItem
             e.printStackTrace();
             // Manejar error al obtener los registros
         }
-
+        dbHelper.close();
         return pedidos;
     }
 
@@ -149,7 +149,7 @@ public class MisPedidosFragment extends Fragment implements PedidoAdapter.OnItem
             e.printStackTrace();
             // Manejar error al obtener los registros
         }
-
+        dbHelper.close();
         return productosIncluidos;
     }
 

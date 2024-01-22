@@ -118,4 +118,5 @@ public class AnadirClienteFragment extends Fragment {
         key = sha.digest(key);
         return new SecretKeySpec(key, "AES");
     }
+
 }

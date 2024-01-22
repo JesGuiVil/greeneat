@@ -45,15 +45,13 @@ public class MostrarClienteFragment extends Fragment {
                     String nif = cursor.getString(cursor.getColumnIndexOrThrow("NIF"));
                     int admin = cursor.getInt(cursor.getColumnIndexOrThrow("Admin"));
 
-                    if (admin==0){
+                    if (admin == 0) {
                         String clienteInfo = String.format(Locale.getDefault(),
                                 "ID: %d\nNombre: %s\nApellidos: %s\nDirección: %s\nTeléfono: %d\nCorreo: %s\nNIF: %s\n\n",
                                 id, nombre, apellidos, direccion, telefono, correo, nif);
 
                         clientesText.append(clienteInfo);
                     }
-
-
                 } while (cursor.moveToNext());
 
                 datosClientesTextView.setText(clientesText.toString());
@@ -64,6 +62,10 @@ public class MostrarClienteFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(requireContext(), "Error al leer datos", Toast.LENGTH_SHORT).show();
+        } finally {
+            // Cerrar la conexión a la base de datos después de la operación de lectura
+            dbHelper.close();
         }
     }
+
 }

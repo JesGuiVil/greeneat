@@ -93,6 +93,9 @@ public class MostrarProductoFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             // Manejar error al obtener los registros
+        }finally {
+            // Cerrar la conexión a la base de datos después de la operación de lectura
+            dbHelper.close();
         }
 
         return productos;
@@ -136,6 +139,9 @@ public class MostrarProductoFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             // Manejar error al obtener los registros
+        }finally {
+            // Cerrar la conexión a la base de datos después de la operación de lectura
+            dbHelper.close();
         }
 
         return productos;

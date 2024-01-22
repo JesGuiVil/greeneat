@@ -61,6 +61,7 @@ public class CarritoFragment extends Fragment {
                 } else {
                 Toast.makeText(requireContext(), "Error al realizar el pedido. Inténtalo de nuevo.", Toast.LENGTH_SHORT).show();
                 }
+                dbHelper.close();
             }
         });
         return view;
@@ -108,6 +109,7 @@ public class CarritoFragment extends Fragment {
             e.printStackTrace();
             // Manejar error al obtener los registros
         }
+
         return productos;
     }
 }

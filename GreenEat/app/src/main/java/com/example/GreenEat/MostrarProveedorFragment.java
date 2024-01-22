@@ -59,6 +59,9 @@ public class MostrarProveedorFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(requireContext(), "Error al leer datos", Toast.LENGTH_SHORT).show();
+        }finally {
+            // Cerrar la conexión a la base de datos después de la operación de lectura
+            dbHelper.close();
         }
     }
 }

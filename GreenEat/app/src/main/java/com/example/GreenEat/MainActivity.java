@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (admin == 0) {
                     irAClienteActivity(idUsuario, 0);
                 }
+                db.close();
             }
         });
 
