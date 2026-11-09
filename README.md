@@ -1,0 +1,1 @@
+Aplicación Android para supermercado, con sistema de login para administradores (gestion de usuarios, proveedores, añadir o eliminar productos, crear ofertas) y clientes (carrito de la compra, realizar, cancelar o consultar pedidos)
